@@ -79,7 +79,7 @@ Value STATION_STATE (.*)
 
 Start
   ^\s*Ifname=${IFNAME}.*SSID=${SSID}:
-  ^\s*${MAC_ADDR}\s*${IP_ADDR}\s*${CHAN}\s*${TX_RATE}\s*${RX_RATE}\s*${POW_SNR}\s*${ASSOC_MODE}\s*${CIPHER}\s*${ASSOC_TIME}\s*${VLAN}\s*${AUTH}\s*${UPID}\s*${PHYMODE}\s*${LDPC}\s*${TX_STBC}\s*${RX_STBC}\s*${SM_PS}\s*${CHAN_WIDTH}\s*${MUMIMO}\s*${RELEASE}\s*${STATION_STATE} -> Record
+  ^\s*${MAC_ADDR}\s*${IP_ADDR}\s*${CHAN}\s*${TX_RATE}\s*${RX_RATE}\s*${POW_SNR}\s*${ASSOC_MODE}\s*${CIPHER}\s*${ASSOC_TIME}\s*${VLAN}\s*${AUTH}\s*${UPID}\s*${PHYMODE}\s*${LDPC}\s*${TX_STBC}\s*${RX_STBC}\s*${SM_PS}\s*${CHAN_WIDTH}(\s*${MUMIMO})?\s*${RELEASE}\s*${STATION_STATE} -> Record
 """
 
     #      ##     ##        #
