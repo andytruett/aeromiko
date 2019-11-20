@@ -1,0 +1,9 @@
+Value SYSTEM_NAME (([\+]|[\w-])+)
+Value PORT_DESC (\w+)
+
+Start
+  ^.*LLDP neighbor -> LLDP
+
+LLDP
+  ^Port description:\s+${PORT_DESC}
+  ^System name:\s+${SYSTEM_NAME} -> Record

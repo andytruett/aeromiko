@@ -1,0 +1,40 @@
+Value RX_PACKETS (\d+)
+Value RX_ERR (.+)
+Value RX_DROPS (\d+)
+Value TX_PACKETS (\d+)
+Value TX_ERR (\d+)
+Value TX_DROPS (\d+)
+Value RX_BYTES (.+)
+Value TX_BYTES (.+)
+Value RX_AIRTIME_PCT ((\d|\.)+)
+Value TX_AIRTIME_PCT ((\d|\.)+)
+Value CRC_ERROR_AIRTIME_PCT ((\d|\.)+)
+Value TX_UTIL (\d+%)
+Value RX_UTIL (\d+%)
+Value INTERFERENCE_UTIL (\d+%)
+Value TOTAL_UTIL (\d+%)
+Value RUN_AVG_TX_CU (\d+%)
+Value RUN_AVG_RX_CU (\d+%)
+Value RUN_AVG_INTERFERENCE_CU (\d+%)
+Value RUN_AVG_NOISE (-\d+dBm)
+Value STMA_TX_CU (\d+%)
+Value STMA_RX_CU (\d+%)
+Value STMA_INTERFERENCE_CU (\d+%)
+Value STMA_NOISE (-\d+dBm)
+Value SNAP_TX_CU (\d+%)
+Value SNAP_RX_CU (\d+%)
+Value SNAP_INTERFERENCE_CU (\d+%)
+Value SNAP_NOISE (-\d+dBm)
+
+Start
+  ^.*AC=access category -> INT
+
+INT
+  ^\s*Rx packets=\s*${RX_PACKETS};\s*errors=\s*${RX_ERR};\s*dropped=\s*${RX_DROPS};
+  ^\s*Tx packets=\s*${TX_PACKETS};\s*errors=\s*${TX_ERR};\s*dropped=\s*${TX_DROPS};
+  ^\s*Rx bytes=.*\(${RX_BYTES}\);\s+Tx bytes=.*\(${TX_BYTES}\);
+  ^\s*Rx airtime percent=\s*${RX_AIRTIME_PCT}%;\s+Tx.*=\s*${TX_AIRTIME_PCT}%;\s+CRC.*\s*=${CRC_ERROR_AIRTIME_PCT}%
+  ^\s*Tx utilization=\s*${TX_UTIL};\s+Rx.*=\s*${RX_UTIL};\s+Interference.*\s*=${INTERFERENCE_UTIL};\s+Total.*=\s*${TOTAL_UTIL}
+  ^\s*Running average Tx CU=\s*${RUN_AVG_TX_CU};\s+Rx CU=\s*${RUN_AVG_RX_CU};\s+Interference.*\s*=${RUN_AVG_INTERFERENCE_CU};\s+Noise.*=\s*${RUN_AVG_NOISE}
+  ^\s*Short term means average Tx CU=\s*${STMA_TX_CU};\s+Rx CU=\s*${STMA_RX_CU};\s+Interference.*\s*=${STMA_INTERFERENCE_CU};\s+Noise.*=\s*${STMA_NOISE}
+  ^\s*Snapshot Tx CU=\s*${SNAP_TX_CU};\s+Rx CU=\s*${SNAP_RX_CU};\s+Interference.*\s*=${SNAP_INTERFERENCE_CU};\s+Noise.*=\s*${SNAP_NOISE} -> Record

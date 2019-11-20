@@ -1,0 +1,5 @@
+Value DUPLEX ([\w\-]+)
+Value SPEED (\d+Mbps)
+
+Start
+  ^.*Duplex=${DUPLEX};\s*Speed=${SPEED}; -> Record

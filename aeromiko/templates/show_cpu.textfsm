@@ -1,0 +1,8 @@
+Value CPU_TOTAL ([\d.]+)
+Value CPU_USER ([\d.]+)
+Value CPU_SYSTEM ([\d.]+)
+
+Start
+  ^\s*CPU total utilization:\s+${CPU_TOTAL}%
+  ^\s*CPU user utilization:\s+${CPU_USER}%
+  ^\s*CPU system utilization:\s+${CPU_SYSTEM}% -> Record

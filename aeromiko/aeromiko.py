@@ -1,9 +1,15 @@
-import aeromiko.templates
+# import aeromiko.templates
 import logging
 import tempfile
 import textfsm
 import netmiko
 import re
+from . import templates
+
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    import importlib_resources as pkg_resources
 
 
 class AP:
@@ -38,6 +44,21 @@ class AP:
     def disconnect(self):
         return self.net_connect.disconnect()
 
+    def send_command(self, command: str):
+        """Send CLI command to AP and return raw response
+
+        Parameters
+        ----------
+        command : str
+            CLI command to send
+
+        Returns
+        -------
+        str
+            raw CLI response
+        """
+        return self.net_connect.send_command(command)
+
     def get_info(self, command: str, template: str):
         """Get structured data from CLI command response, via textFSM template
 
@@ -54,11 +75,13 @@ class AP:
             structured data extracted from CLI response
         """
 
-        command_response = self.net_connect.send_command(command)
+        textfsm_template = pkg_resources.read_text(templates, template)
+
+        command_response = self.send_command(command)
 
         tmp = tempfile.NamedTemporaryFile(delete=False)
         with open(tmp.name, "w") as file:
-            file.write(template)
+            file.write(textfsm_template)
         with open(tmp.name, "r") as file:
             fsm = textfsm.TextFSM(file)
             fsm_results = fsm.ParseText(command_response)
@@ -79,7 +102,7 @@ class AP:
 
         command = "show config running"
 
-        config_running = self.net_connect.send_command(command)
+        config_running = self.send_command(command)
         return config_running
 
     def get_hostname(self):
@@ -92,7 +115,7 @@ class AP:
         """
 
         command = "show config running | i hostname"
-        template = aeromiko.templates.get_hostname_template
+        template = "get_hostname.textfsm"
 
         hostname_info = self.get_info(command, template)
         hostname = hostname_info[0]["HOSTNAME"]
@@ -108,7 +131,7 @@ class AP:
             UPTIME  , time since last reboot
         """
         command = "show version"
-        template = aeromiko.templates.show_version_template
+        template = "show_version.textfsm"
 
         version = self.get_info(command, template)
         return version[0]
@@ -125,7 +148,7 @@ class AP:
         """
 
         command = "show cpu"
-        template = aeromiko.templates.show_cpu_template
+        template = "show_cpu.textfsm"
 
         cpu = self.get_info(command, template)
         return cpu[0]
@@ -162,7 +185,7 @@ class AP:
         """
 
         command = "show station"
-        template = aeromiko.templates.show_station_template
+        template = "show_station.textfsm"
 
         stations = self.get_info(command, template)
         return stations
@@ -178,7 +201,7 @@ class AP:
         """
 
         command = "show lldp neighbor"
-        template = aeromiko.templates.show_lldp_neighbor_template
+        template = "show_lldp_neighbor.textfsm"
 
         lldp_neighbor = self.get_info(command, template)
         return lldp_neighbor[0]
@@ -199,7 +222,7 @@ class AP:
         """
 
         command = "sh int " + interface
-        template = aeromiko.templates.show_eth_template
+        template = "show_eth.textfsm"
 
         int_eth = self.get_info(command, template)
         return int_eth[0]
@@ -245,7 +268,7 @@ class AP:
         """
 
         command = "show int " + interface
-        template = aeromiko.templates.show_wifi_template
+        template = "show_wifi.textfsm"
 
         int_wifi = self.get_info(command, template)
         return int_wifi
@@ -264,7 +287,7 @@ class AP:
             TX_POWER_DBM        , Transmit power in dBm
         """
         command = "sh acsp"
-        template = aeromiko.templates.show_acsp_template
+        template = "show_acsp.textfsm"
 
         acsp = self.get_info(command, template)
         return acsp
@@ -288,7 +311,7 @@ class AP:
         """
 
         command = "show acsp neighbor"
-        template = aeromiko.templates.show_acsp_neighbor_template
+        template = "show_acsp_neighbor.textfsm"
 
         acsp_neighbors = self.get_info(command, template)
         return acsp_neighbors

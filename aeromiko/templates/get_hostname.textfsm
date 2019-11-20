@@ -1,0 +1,7 @@
+Value HOSTNAME (.*)
+
+Start
+  ^.*hostname -> AP_HOSTNAME
+
+AP_HOSTNAME
+  ^hostname\s*${HOSTNAME} -> Record
