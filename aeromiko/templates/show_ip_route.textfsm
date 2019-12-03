@@ -1,0 +1,11 @@
+Value DESTINATION (\S+)
+Value GATEWAY (\S+)
+Value NETMASK (\S+)
+Value FLAGS (\S+)
+Value METRIC (\d+)
+Value REF (\d+)
+Value USE (\d+)
+Value IFACE (.+)
+
+Start
+  ^\s*${DESTINATION}\s+${GATEWAY}\s+${NETMASK}\s+${FLAGS}\s+${METRIC}\s+${REF}\s+${USE}\s+${IFACE} -> Record

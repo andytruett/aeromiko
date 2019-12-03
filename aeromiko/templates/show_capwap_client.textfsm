@@ -1,0 +1,76 @@
+Value CAPWAP_CLIENT (.+)
+Value CAPWAP_TRANSPORT_MODE (.+)
+Value RUN_STATE (.+)
+Value CAPWAP_CLIENT_IP (.+)
+Value CAPWAP_SERVER_IP (.+)
+Value HIVEMANAGER_PRIMARY_NAME (.+)
+Value HIVEMANAGER_BACKUP_NAME (.+)
+Value CAPWAP_DEFAULT_SERVER_NAME (.+)
+Value VIRTUAL_HIVEMANAGER_NAME (.+)
+Value SERVER_DESTINATION_PORT (.+)
+Value CAPWAP_SEND_EVENT (.+)
+Value CAPWAP_DTLS_STATE (.+)
+Value CAPWAP_DTLS_NEGOTIATION (.+)
+Value DTLS_NEXT_CONNECT_STATUS (.+)
+Value DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE (.+)
+Value DTLS_SESSION_STATUS (.+)
+Value DTLS_KEY_TYPE (.+)
+Value DTLS_SESSION_CUT_INTERVAL (.+)
+Value DTLS_HANDSHAKE_WAIT_INTERVAL (.+)
+Value DTLS_MAX_RETRY_COUNT (.+)
+Value DTLS_AUTHORIZE_FAILED (.+)
+Value DTLS_RECONNECT_COUNT (.+)
+Value DISCOVERY_INTERVAL (.+)
+Value HEARTBEAT_INTERVAL (.+)
+Value MAX_DISCOVERY_INTERVAL (.+)
+Value NEIGHBOR_DEAD_INTERVAL (.+)
+Value SILENT_INTERVAL (.+)
+Value WAIT_JOIN_INTERVAL (.+)
+Value DISCOVERY_COUNT (.+)
+Value MAX_DISCOVERY_COUNT (.+)
+Value RETRANSMIT_COUNT (.+)
+Value MAX_RETRANSMIT_COUNT (.+)
+Value PRIMARY_SERVER_TRIES (.+)
+Value BACKUP_SERVER_TRIES (.+)
+Value KEEPALIVES_LOST_SENT (.+)
+Value EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE (.+)
+Value EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION (.+)
+
+Start
+  ^\s*CAPWAP client:\s*${CAPWAP_CLIENT}
+  ^\s*CAPWAP transport mode:\s*${CAPWAP_TRANSPORT_MODE}
+  ^\s*RUN state:\s*${RUN_STATE}
+  ^\s*CAPWAP client IP:\s*${CAPWAP_CLIENT_IP}
+  ^\s*CAPWAP server IP:\s*${CAPWAP_SERVER_IP}
+  ^\s*HiveManager Primary Name:\s*${HIVEMANAGER_PRIMARY_NAME}
+  ^\s*HiveManager Backup Name:\s*${HIVEMANAGER_BACKUP_NAME}
+  ^\s*CAPWAP Default Server Name:\s*${CAPWAP_DEFAULT_SERVER_NAME}
+  ^\s*Virtual HiveManager Name:\s*${VIRTUAL_HIVEMANAGER_NAME}
+  ^\s*Server destination Port:\s*${SERVER_DESTINATION_PORT}
+  ^\s*CAPWAP send event:\s*${CAPWAP_SEND_EVENT}
+  ^\s*CAPWAP DTLS state:\s*${CAPWAP_DTLS_STATE}
+  ^\s*CAPWAP DTLS negotiation:\s*${CAPWAP_DTLS_NEGOTIATION}
+  ^\s*DTLS next connect status:\s*${DTLS_NEXT_CONNECT_STATUS}
+  ^\s*DTLS always accept bootstrap passphrase:\s*${DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE}
+  ^\s*DTLS session status:\s*${DTLS_SESSION_STATUS}
+  ^\s*DTLS key type:\s*${DTLS_KEY_TYPE}
+  ^\s*DTLS session cut interval:\s*${DTLS_SESSION_CUT_INTERVAL}
+  ^\s*DTLS handshake wait interval:\s*${DTLS_HANDSHAKE_WAIT_INTERVAL}
+  ^\s*DTLS Max retry count:\s*${DTLS_MAX_RETRY_COUNT}
+  ^\s*DTLS authorize failed:\s*${DTLS_AUTHORIZE_FAILED}
+  ^\s*DTLS reconnect count:\s*${DTLS_RECONNECT_COUNT}
+  ^\s*Discovery interval:\s*${DISCOVERY_INTERVAL}
+  ^\s*Heartbeat interval:\s*${HEARTBEAT_INTERVAL}
+  ^\s*Max discovery interval:\s*${MAX_DISCOVERY_INTERVAL}
+  ^\s*Neighbor dead interval:\s*${NEIGHBOR_DEAD_INTERVAL}
+  ^\s*Silent interval:\s*${SILENT_INTERVAL}
+  ^\s*Wait join interval:\s*${WAIT_JOIN_INTERVAL}
+  ^\s*Discovery count:\s*${DISCOVERY_COUNT}
+  ^\s*Max discovery count:\s*${MAX_DISCOVERY_COUNT}
+  ^\s*Retransmit count:\s*${RETRANSMIT_COUNT}
+  ^\s*Max retransmit count:\s*${MAX_RETRANSMIT_COUNT}
+  ^\s*Primary server tries:\s*${PRIMARY_SERVER_TRIES}
+  ^\s*Backup server tries:\s*${BACKUP_SERVER_TRIES}
+  ^\s*Keepalives lost/sent:\s*${KEEPALIVES_LOST_SENT}
+  ^\s*Event packet drop due to buffer shortage:\s*${EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE}
+  ^\s*Event packet drop due to loss connection:\s*${EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION} -> Record

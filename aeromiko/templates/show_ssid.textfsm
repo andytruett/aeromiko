@@ -1,0 +1,10 @@
+Value NO (\d+)
+Value NAME (.+?)
+Value FRAG (\d+)
+Value RTS (\d+)
+Value DTIM_PERIOD (\d+)
+Value MAX_CLIENT (\d+)
+Value MAC_FILTER (.+)
+
+Start
+  ^\s*${NO}\s+${NAME}\s+${FRAG}\s+${RTS}\s+${DTIM_PERIOD}\s+${MAX_CLIENT}\s+${MAC_FILTER} -> Record

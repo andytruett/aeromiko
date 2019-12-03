@@ -1,0 +1,16 @@
+Value BSSID ([0-9A-Fa-f:]{14})
+Value MODE (\w+)
+Value SSID ((?!\s{2,})[\w\W]*?)
+Value CHANNEL (\d{1,3})
+Value RSSI (-\d{1,3})
+Value AEROHIVE (yes|no)
+Value CU (--|(\d{1,3}))
+Value CRC (--|(\d{1,3}))
+Value STA (--|(\d{1,3}))
+Value CHANNEL_WIDTH (\d{1,3}\+?)
+
+Start
+  ^.*Bssid -> BSSID
+
+BSSID
+  ^\s*${BSSID}\s+${MODE}\s+${SSID}\s+${CHANNEL}\s+${RSSI}\s+${AEROHIVE}\s+${CU}\s+${CRC}\s+${STA}\s+${CHANNEL_WIDTH} -> Record

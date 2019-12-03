@@ -1,0 +1,10 @@
+Value CONSOLE_LINES (.+)
+Value CONSOLE_TIMEOUT (.+)
+Value SERIAL_STATUS (.+)
+Value CONSOLE_OBSCURE_PASSWORDS (.+)
+
+Start
+  ^.*Console page lines:\s*${CONSOLE_LINES}
+  ^.*Console timeout in minutes:\s*${CONSOLE_TIMEOUT}
+  ^.*Serial port status:\s*${SERIAL_STATUS}
+  ^.*Console echo obscure-passwords:\s*${CONSOLE_OBSCURE_PASSWORDS} -> Record

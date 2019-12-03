@@ -1,0 +1,6 @@
+Value DATE (\d{4}-\d{1,2}-\d{1,2})
+Value TIME (\d{1,2}:\d{1,2}:\d{1,2})
+Value DAY (.+)
+
+Start
+  ^\s*${DATE}\s*${TIME}\s*${DAY} -> Record

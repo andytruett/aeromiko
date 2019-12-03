@@ -1,0 +1,8 @@
+Value SYSLOCATION (.+)
+Value SYSCONTACT (.+)
+Value COMMUNITY_NUMBERS (.+)
+
+Start
+  ^\s*Syslocation:\s*${SYSLOCATION}
+  ^\s*Syscontact:\s*${SYSCONTACT}
+  ^\s*Community numbers:\s*${COMMUNITY_NUMBERS} -> Record

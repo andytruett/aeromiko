@@ -1,0 +1,14 @@
+Value IDM_CLIENT (.*)
+Value IDM_PROXY_IP (.*)
+Value IDM_PROXY (.*)
+Value RADSEC_CERTIFICATE_STATE (.*)
+Value RADSEC_CERTIFICATE_ISSUED (.*)
+Value RADSEC_CERTIFICATE_EXPIRE (.*)
+
+Start
+  ^\s*IDM client:\s*${IDM_CLIENT}
+  ^\s*IDM Proxy IP:\s*${IDM_PROXY_IP}
+  ^\s*IDM proxy:\s*${IDM_PROXY}
+  ^\s*RadSec Certificate state:\s*${RADSEC_CERTIFICATE_STATE}
+  ^\s*RadSec Certificate Issued:\s*${RADSEC_CERTIFICATE_ISSUED}
+  ^\s*RadSec Certificate Expire:\s*${RADSEC_CERTIFICATE_EXPIRE} -> Record

@@ -1,0 +1,12 @@
+Value DNS_SERVER_FROM_DHCP (.+)
+Value DOMAIN_NAME_SUFFIX (.+)
+Value PRIMARY (.+)
+Value SECONDARY (.+)
+Value TERTIARY (.+)
+
+Start
+  ^\s*DNS server from DHCP\s*:\s* ${DNS_SERVER_FROM_DHCP}
+  ^\s*Domain name suffix\s*:\s*${DOMAIN_NAME_SUFFIX}
+  ^\s*Primary\s*:\s*${PRIMARY}
+  ^\s*Secondary\s*:\s*${SECONDARY}
+  ^\s*Tertiary\s*:\s*${TERTIARY} -> Record

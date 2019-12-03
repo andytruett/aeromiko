@@ -1,0 +1,6 @@
+Value PLATFORM (.*)
+Value UPTIME (.*)
+
+Start
+  ^\s*Platform:\s*${PLATFORM}
+  ^\s*Uptime:\s*${UPTIME} -> Record
