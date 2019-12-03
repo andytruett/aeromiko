@@ -1,0 +1,12 @@
+Value STA ([0-9A-Za-z]{4}:[0-9A-Za-z]{4}:[0-9A-Za-z]{4})
+Value NHOP ([0-9A-Za-z]{4}:[0-9A-Za-z]{4}:[0-9A-Za-z]{4})
+Value OIF (\S+)
+Value METRIC (\d+)
+Value UPID (\d+)
+Value FLAG (.*)
+
+
+Start
+  ^\s*${STA}\s*${NHOP}\s*${OIF}\s*${METRIC}\s*${UPID}\s*${FLAG} -> Record
+
+# flag: (S)tatic, (I)nterface (L)ocal (T)unnel (O)wn

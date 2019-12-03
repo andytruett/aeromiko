@@ -1,0 +1,28 @@
+Value DEVICE_IP (.+)
+Value NETMASK (.+)
+Value TFTP_SERVER_IP (.+)
+Value GATEWAY_IP (.+)
+Value VLAN_ID (.+)
+Value NATIVE_VLAN_ID (.+)
+Value NETBOOT_ALWAYS (.+)
+Value NETBOOT (.+)
+Value BOOT_FILE (.+)
+Value NETDUMP (.+)
+Value NETDUMP_FILE (.+)
+Value REGION_CODE (.+)
+Value COUNTRY_CODE (.+)
+
+Start
+  ^.*Device IP:\s*${DEVICE_IP}
+  ^.*Netmask:\s*${NETMASK}
+  ^.*TFTP Server IP:\s*${TFTP_SERVER_IP}
+  ^.*Gateway IP:\s*${GATEWAY_IP}
+  ^.*VLAN ID:\s*${VLAN_ID}
+  ^.*Native-VLAN ID:\s*${NATIVE_VLAN_ID}
+  ^.*Netboot Always:\s*${NETBOOT_ALWAYS}
+  ^.*Netboot:\s*${NETBOOT}
+  ^.*Boot File:\s*${BOOT_FILE}
+  ^.*Netdump:\s*${NETDUMP}
+  ^.*Netdump File:\s*${NETDUMP_FILE}
+  ^.*Region Code:\s*${REGION_CODE}
+  ^.*Country Code:\s*${COUNTRY_CODE} -> Record

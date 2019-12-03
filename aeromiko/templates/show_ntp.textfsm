@@ -1,0 +1,21 @@
+Value STATE (.*)
+Value INTERVAL (.*)
+Value FIRST (.*)
+Value SECOND (.*)
+Value THIRD (.*)
+Value FOURTH (.*)
+Value DST (.*)
+Value DST_START (.*)
+Value DST_END (.*)
+
+
+Start
+  ^\s*State:\s*${STATE}
+  ^\s*Interval:\s*${INTERVAL}
+  ^\s*First\s*${FIRST}
+  ^\s*Second\s*${SECOND}
+  ^\s*Third\s*${THIRD}
+  ^\s*Fourth\s*${FOURTH}
+  ^\s*Daylight Saving Time:\s*${DST}
+  ^\s*Start\s*${DST_START}
+  ^\s*End\s*${DST_END} -> Record

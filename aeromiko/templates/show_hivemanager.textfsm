@@ -1,0 +1,8 @@
+Value HM_PRIMARY (.+)
+Value HM_BACKUP (.+)
+Value HM_CONNECTION (.+)
+
+Start
+  ^\s*HiveManager Primary:\s*${HM_PRIMARY}
+  ^\s*HiveManager Backup:\s*${HM_BACKUP}
+  ^\s*HiveManager connection:\s*${HM_CONNECTION} -> Record

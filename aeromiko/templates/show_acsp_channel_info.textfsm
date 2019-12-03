@@ -1,0 +1,17 @@
+Value Filldown INT (wifi\d)
+Value Filldown INT_VALUE (\d+)
+Value Filldown STATE (.+)
+Value Filldown LOWEST_COST_CHANNEL (\d+)
+Value Filldown LOWEST_COST (-?\d+)
+Value Required CHANNEL (\d+)
+Value CHANNEL_OVERLAP (overlap)
+Value CHANNEL_COST (.+)
+
+Start
+  ^.*${INT}\s*\(${INT_VALUE}\):
+  ^.*State:\s*${STATE}
+  ^.*Lowest cost channel:\s*${LOWEST_COST_CHANNEL},\s*lowest-cost:\s*${LOWEST_COST} -> CHANNEL
+
+CHANNEL
+  ^.*Channel\s*${CHANNEL}\s*Cost:\s*${CHANNEL_COST}\s*${CHANNEL_OVERLAP}? -> Record
+  ^\s*$$ -> Start

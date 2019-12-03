@@ -1,0 +1,4 @@
+Value TIMEZONE (\S+)
+
+Start
+  ^\s*Timezone:\s*${TIMEZONE} -> Record

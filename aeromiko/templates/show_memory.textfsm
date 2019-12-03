@@ -1,0 +1,8 @@
+Value TOTAL_MEMORY (\S+)
+Value FREE_MEMORY (\S+)
+Value USED_MEMORY (\S+)
+
+Start
+  ^\s*Total Memory:\s*${TOTAL_MEMORY}
+  ^\s*Free Memory:\s*${FREE_MEMORY}
+  ^\s*Used Memory:\s*${USED_MEMORY} -> Record
