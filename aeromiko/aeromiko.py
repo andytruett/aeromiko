@@ -1,9 +1,7 @@
 # import aeromiko.templates
-import logging
 import tempfile
 import textfsm
 import netmiko
-import re
 from . import templates
 
 try:
@@ -18,7 +16,7 @@ class AP:
         self.password = password
         self.username = username
 
-    def connect(self, verbosity=False):
+    def connect(self, port=22, verbosity=False):
         """Establish SSH connection to the access point
 
         Parameters
@@ -32,7 +30,7 @@ class AP:
             "ip": self.ip,
             "username": self.username,
             "password": self.password,
-            "port": 22,
+            "port": port,
             "verbose": verbosity,
         }
 
@@ -59,7 +57,7 @@ class AP:
         """
         return self.net_connect.send_command(command)
 
-    def send_config(self, command_list):
+    def send_config(self, command_list: list):
         """Send list of CLI commands to access point
 
         Parameters
@@ -74,7 +72,7 @@ class AP:
         """
         return self.net_connect.send_config_set(command_list)
 
-    def fsm_parse(self, command_response: str, template: str):
+    def fsm_parse(self, command_response: str, template=str):
         """Get structured data from CLI command response, via textFSM template
 
         Parameters
@@ -82,15 +80,20 @@ class AP:
         command : str
             response string from CLI
         template : str
-            textFSM template string
+            raw textFSM template string
+            or
+            name of predefined template from aeromiko package
+        raw : boolean
 
         Returns
         -------
         dict
             structured data extracted from CLI response
         """
-
-        textfsm_template = pkg_resources.read_text(templates, template)
+        if template.startswith("Value"):
+            textfsm_template = template
+        else:
+            textfsm_template = pkg_resources.read_text(templates, template)
 
         tmp = tempfile.NamedTemporaryFile(delete=False)
         with open(tmp.name, "w") as file:
