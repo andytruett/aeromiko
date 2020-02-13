@@ -1,0 +1,2905 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.4" />
+<title>aeromiko.aeromiko API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>aeromiko.aeromiko</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># import aeromiko.templates
+import tempfile
+import textfsm
+import netmiko
+from . import templates
+
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    import importlib_resources as pkg_resources
+
+
+class AP:
+    def __init__(self, ip: str, username: str, password: str):
+        self.ip = ip
+        self.password = password
+        self.username = username
+
+    def connect(self, port=22, verbosity=False):
+        &#34;&#34;&#34;Establish SSH connection to the access point
+
+        Parameters
+        ----------
+        verbosity : bool, optional
+            Toggle verbose SSH connection information, by default False
+        &#34;&#34;&#34;
+
+        switch = {
+            &#34;device_type&#34;: &#34;cisco_ios&#34;,
+            &#34;ip&#34;: self.ip,
+            &#34;username&#34;: self.username,
+            &#34;password&#34;: self.password,
+            &#34;port&#34;: port,
+            &#34;verbose&#34;: verbosity,
+        }
+
+        self.net_connect = netmiko.ConnectHandler(**switch)
+
+        self.net_connect.find_prompt()
+        self.net_connect.send_command(&#34;console page 0&#34;)
+
+    def disconnect(self):
+        return self.net_connect.disconnect()
+
+    def send_command(self, command: str):
+        &#34;&#34;&#34;Send CLI command to AP and return raw response
+
+        Parameters
+        ----------
+        command : str
+            CLI command to send
+
+        Returns
+        -------
+        str
+            raw CLI response
+        &#34;&#34;&#34;
+        return self.net_connect.send_command(command)
+
+    def send_config(self, command_list: list):
+        &#34;&#34;&#34;Send list of CLI commands to access point
+
+        Parameters
+        ----------
+        command_list : list
+            list of CLI commands to send to AP
+
+        Returns
+        -------
+        str
+            CLI output resulting from AP
+        &#34;&#34;&#34;
+        return self.net_connect.send_config_set(command_list)
+
+    def fsm_parse(self, command_response: str, template=str):
+        &#34;&#34;&#34;Get structured data from CLI command response, via textFSM template
+
+        Parameters
+        ----------
+        command : str
+            response string from CLI
+        template : str
+            raw textFSM template string
+            or
+            name of predefined template from aeromiko package
+        raw : boolean
+
+        Returns
+        -------
+        dict
+            structured data extracted from CLI response
+        &#34;&#34;&#34;
+        if template.startswith(&#34;Value&#34;):
+            textfsm_template = template
+        else:
+            textfsm_template = pkg_resources.read_text(templates, template)
+
+        tmp = tempfile.NamedTemporaryFile(delete=False)
+        with open(tmp.name, &#34;w&#34;) as file:
+            file.write(textfsm_template)
+        with open(tmp.name, &#34;r&#34;) as file:
+            fsm = textfsm.TextFSM(file)
+            fsm_results = fsm.ParseText(command_response)
+            info = [dict(zip(fsm.header, row)) for row in fsm_results]
+        for information in info:
+            for (key, value) in information.items():
+                information[key] = value.strip()
+        return info
+
+    def show_config_running(self):
+        &#34;&#34;&#34;Get running configuration (returns unstructured string)
+
+        Returns
+        -------
+        str
+            unstructured CLI response to &#34;show config running&#34;
+        &#34;&#34;&#34;
+
+        command = &#34;show config running&#34;
+
+        config_running = self.send_command(command)
+        return config_running
+
+    def get_hostname(self):
+        &#34;&#34;&#34;Get hostname
+
+        Returns
+        -------
+        str
+            access point hostname as defined in running configuration
+        &#34;&#34;&#34;
+
+        command = &#34;show config running | i ^hostname&#34;
+        template = &#34;get_hostname.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hostname_info = self.fsm_parse(command_response, template)
+        hostname = hostname_info[0][&#34;HOSTNAME&#34;]
+        return hostname
+
+    def show_version(self):
+        &#34;&#34;&#34;Get version information
+
+        Returns
+        -------
+        dict
+            PLATFORM, AP model
+            UPTIME  , time since last reboot
+        &#34;&#34;&#34;
+        command = &#34;show version&#34;
+        template = &#34;show_version.textfsm&#34;
+
+        command_response = self.send_command(command)
+        version = self.fsm_parse(command_response, template)
+        return version[0]
+
+    def show_cpu(self):
+        &#34;&#34;&#34;Get CPU details
+
+        Returns
+        -------
+        dict
+            CPU_TOTAL , current aggregate CPU utilization
+            CPU_USER  , current user CPU utilization
+            CPU_SYSTEM, current system CPU utilization
+        &#34;&#34;&#34;
+
+        command = &#34;show cpu&#34;
+        template = &#34;show_cpu.textfsm&#34;
+
+        command_response = self.send_command(command)
+        cpu = self.fsm_parse(command_response, template)
+        return cpu[0]
+
+    def show_station(self):
+        &#34;&#34;&#34;Get stations currently associated to this AP
+
+        Returns
+        -------
+        dict
+            IFNAME       , interface station is associated to
+            SSID         , SSID station is associated to
+            MAC_ADDR     , MAC address of station
+            IP_ADDR      , IP address of station
+            CHAN         , channel station is on
+            TX_RATE      , transmit rate to station
+            RX_RATE      , receive rate from station
+            POW_SNR      , power level (d) and signal-to-noise ratio of station
+            ASSOC_MODE   , association mode of station
+            CIPHER       , cipher mode of station
+            ASSOC_TIME   , association time of station
+            VLAN         , user VLAN of station
+            AUTH         , authentication mode of station
+            UPID         , user profile ID assigned to station
+            PHYMODE      , PHY mode of station
+            LDPC         , LDPC code usage by station
+            TX_STBC      , STBC code usage to station
+            RX_STBC      , STBC code usage from station
+            SM_PS        , Spatial Multiplexing Power Save usage by station
+            CHAN_WIDTH   , channel width in use by station
+            MUMIMO       , MUMIMO usage of station
+            RELEASE      , release state of station
+            STATION_STATE, state of station
+        &#34;&#34;&#34;
+
+        command = &#34;show station&#34;
+        template = &#34;show_station.textfsm&#34;
+
+        command_response = self.send_command(command)
+        stations = self.fsm_parse(command_response, template)
+        return stations
+
+    def show_lldp_neighbor(self):
+        &#34;&#34;&#34;Get LLDP neighbor information
+
+        Returns
+        -------
+        dict
+            PORT_DESC  , interface description on LLDP neighbor
+            SYSTEM_NAME, system name of LLDP neighbor
+        &#34;&#34;&#34;
+
+        command = &#34;show lldp neighbor&#34;
+        template = &#34;show_lldp_neighbor.textfsm&#34;
+
+        command_response = self.send_command(command)
+        lldp_neighbor = self.fsm_parse(command_response, template)
+        return lldp_neighbor[0]
+
+    def show_int_eth(self, interface: str):
+        &#34;&#34;&#34;Get ethernet inferface details
+
+        Parameters
+        ----------
+        interface : str
+            eth interface #
+
+        Returns
+        -------
+        dict
+            DUPLEX, ethernet link duplex
+            SPEED , ethernet link speed
+        &#34;&#34;&#34;
+
+        command = &#34;sh int &#34; + interface
+        template = &#34;show_eth.textfsm&#34;
+
+        command_response = self.send_command(command)
+        int_eth = self.fsm_parse(command_response, template)
+        return int_eth[0]
+
+    def show_int_wifi(self, interface: str):
+        &#34;&#34;&#34;Get WiFi interface details
+
+        Parameters
+        ----------
+        interface : str
+            WiFi interface #
+
+        Returns
+        -------
+        dict
+            RX_PACKETS             , receive packets
+            RX_ERR                 , receive errors
+            RX_DROPS               , receive drops
+            TX_PACKETS             , transmit packets
+            TX_ERR                 , transmit errors
+            TX_DROPS               , transmit drops
+            RX_BYTES               , receive bytes
+            TX_BYTES               , transmit bytes
+            RX_AIRTIME_PCT         , receive airtime %
+            TX_AIRTIME_PCT         , transmit airtime %
+            CRC_ERROR_AIRTIME_PCT  , CRC error airtime %
+            TX_UTIL                , receive utilization %
+            RX_UTIL                , transmit utilization %
+            INTERFERENCE_UTIL      , interference utilization %
+            TOTAL_UTIL             , total utilization %
+            RUN_AVG_TX_CU          , running average transmit utilization
+            RUN_AVG_RX_CU          , running average receive utilization
+            RUN_AVG_INTERFERENCE_CU, running average interference utilization
+            RUN_AVG_NOISE          , running average noise utilization
+            STMA_TX_CU             , short time mean average transmit utilization
+            STMA_RX_CU             , short time mean average receive utilization
+            STMA_INTERFERENCE_CU   , short time mean average interference utilization
+            STMA_NOISE             , short time mean average noise utilization
+            SNAP_TX_CU             , snapshot transmit utilization
+            SNAP_RX_CU             , snapshot receive utilization
+            SNAP_INTERFERENCE_CU   , snapshot interference utilization
+            SNAP_NOISE             , snapshot noise utilization
+        &#34;&#34;&#34;
+
+        command = &#34;show int &#34; + interface
+        template = &#34;show_wifi.textfsm&#34;
+
+        command_response = self.send_command(command)
+        int_wifi = self.fsm_parse(command_response, template)
+        return int_wifi
+
+    def show_acsp(self):
+        &#34;&#34;&#34;Get Aerohive Channel Selection Protocol information
+
+        Returns
+        -------
+        dict
+            INTERFACE           , WiFi interface
+            CHANNEL_SELECT_STATE, channel select state
+            PRIMARY_CHANNEL     , primary channel
+            CHANNEL_WIDTH       , channel width
+            POWER_CTRL_STATE    , power control state
+            TX_POWER_DBM        , Transmit power in dBm
+        &#34;&#34;&#34;
+        command = &#34;sh acsp&#34;
+        template = &#34;show_acsp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp = self.fsm_parse(command_response, template)
+        return acsp
+
+    def show_acsp_neighbor(self):
+        &#34;&#34;&#34;Get ACSP neighbors (other APs this device can hear)
+
+        Returns
+        -------
+        dict
+            BSSID        , BSSID of neighbor
+            MODE         , PHY of neighbor
+            SSID         , SSID of neighbor
+            CHANNEL      , channel used by neighbor
+            RSSI         , RSSI of neighbor
+            AEROHIVE     , is neighbor an Aerohive device?
+            CU           , current utilization of neighboring Aerohive device
+            CRC          , CRC erros to/from neighboring Aerohive device
+            STA          , stations on neighboring Aerohive device
+            CHANNEL_WIDTH, channel width of neighbor
+        &#34;&#34;&#34;
+
+        command = &#34;show acsp neighbor&#34;
+        template = &#34;show_acsp_neighbor.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp_neighbors = self.fsm_parse(command_response, template)
+        return acsp_neighbors
+
+    def show_boot_param(self):
+        &#34;&#34;&#34;Show boot parameters
+
+        Returns
+        -------
+        dict
+            DEVICE_IP
+            NETMASK
+            TFTP_SERVER_IP
+            GATEWAY_IP
+            VLAN_ID
+            NATIVE_VLAN_ID
+            NETBOOT_ALWAYS
+            NETBOOT
+            BOOT_FILE
+            NETDUMP
+            NETDUMP_FILE
+            REGION_CODE
+            COUNTRY_CODE
+        &#34;&#34;&#34;
+        command = &#34;show boot-param&#34;
+        template = &#34;show_boot_param.textfsm&#34;
+
+        command_response = self.send_command(command)
+        boot_params = self.fsm_parse(command_response, template)
+        return boot_params
+
+    def show_acsp_channel_info(self):
+        &#34;&#34;&#34;Show ACSP decision details for all radios
+
+        Returns
+        -------
+        dict
+            INT
+            INT_VALUE
+            STATE
+            LOWEST_COST_CHANNEL
+            LOWEST_COST
+            CHANNEL
+            CHANNEL_OVERLAP
+            CHANNEL_COST
+        &#34;&#34;&#34;
+        command = &#34;show acsp channel-info&#34;
+        template = &#34;show_acsp_channel_info.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp_neighbor_info = self.fsm_parse(command_response, template)
+        return acsp_neighbor_info
+
+    def show_capwap_client(self):
+        &#34;&#34;&#34;Show capwap client information
+
+        Returns
+        -------
+        dict
+            CAPWAP_CLIENT
+            CAPWAP_TRANSPORT_MODE
+            RUN_STATE
+            CAPWAP_CLIENT_IP
+            CAPWAP_SERVER_IP
+            HIVEMANAGER_PRIMARY_NAME
+            HIVEMANAGER_BACKUP_NAME
+            CAPWAP_DEFAULT_SERVER_NAME
+            VIRTUAL_HIVEMANAGER_NAME
+            SERVER_DESTINATION_PORT
+            CAPWAP_SEND_EVENT
+            CAPWAP_DTLS_STATE
+            CAPWAP_DTLS_NEGOTIATION
+            DTLS_NEXT_CONNECT_STATUS
+            DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE
+            DTLS_SESSION_STATUS
+            DTLS_KEY_TYPE
+            DTLS_SESSION_CUT_INTERVAL
+            DTLS_HANDSHAKE_WAIT_INTERVAL
+            DTLS_MAX_RETRY_COUNT
+            DTLS_AUTHORIZE_FAILED
+            DTLS_RECONNECT_COUNT
+            DISCOVERY_INTERVAL
+            HEARTBEAT_INTERVAL
+            MAX_DISCOVERY_INTERVAL
+            NEIGHBOR_DEAD_INTERVAL
+            SILENT_INTERVAL
+            WAIT_JOIN_INTERVAL
+            DISCOVERY_COUNT
+            MAX_DISCOVERY_COUNT
+            RETRANSMIT_COUNT
+            MAX_RETRANSMIT_COUNT
+            PRIMARY_SERVER_TRIES
+            BACKUP_SERVER_TRIES
+            KEEPALIVES_LOST_SENT
+            EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE
+            EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION
+        &#34;&#34;&#34;
+        command = &#34;show capwap client&#34;
+        template = &#34;show_capwap_client.textfsm&#34;
+
+        command_response = self.send_command(command)
+        capwap_client = self.fsm_parse(command_response, template)
+        return capwap_client
+
+    def show_console(self):
+        &#34;&#34;&#34;Show console port information
+
+        Returns
+        -------
+        dict
+            CONSOLE_LINES            , # lines in console output
+            CONSOLE_TIMEOUT          , console timeout (seconds)
+            SERIAL_STATUS            , status of serial port
+            CONSOLE_OBSCURE_PASSWORDS, obscure console passwords?
+        &#34;&#34;&#34;
+        command = &#34;show console&#34;
+        template = &#34;show_console.textfsm&#34;
+
+        command_response = self.send_command(command)
+        console = self.fsm_parse(command_response, template)
+        return console
+
+    def show_dns(self):
+        &#34;&#34;&#34;Show DNS information
+
+        Returns
+        -------
+        dict
+            DNS_SERVER_FROM_DHCP
+            DOMAIN_NAME_SUFFIX
+            PRIMARY
+            SECONDARY
+            TERTIARY
+        &#34;&#34;&#34;
+        command = &#34;show dns&#34;
+        template = &#34;show_dns.textfsm&#34;
+
+        command_response = self.send_command(command)
+        dns = self.fsm_parse(command_response, template)
+        return dns
+
+    def show_hivemanager(self):
+        &#34;&#34;&#34;Show HiveManager information
+
+        Returns
+        -------
+        dict
+            HM_PRIMARY
+            HM_BACKUP
+            HM_CONNECTION
+        &#34;&#34;&#34;
+        command = &#34;show hivemanager&#34;
+        template = &#34;show_hivemanager.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hivemanager = self.fsm_parse(command_response, template)
+        return hivemanager
+
+    def show_hw_info(self):
+        &#34;&#34;&#34;Show hardware information
+
+        Returns
+        -------
+        dict
+            ETHERNET_MAC_ADDRESS
+            SERIAL_NUMBER
+            HARDWARE_REVISION
+            PRODUCT_NAME
+            HARDWARE_ID
+            MANUFACTURING_DATE
+            NUMBER_OF_MAC_ADDRESSES
+            MANUFACTURING_VERSION
+            ANTENNA_ID
+            AEROHIVE_HARDWARE_KEY
+            HW_AUTH_DEVICE_STATUS
+            TPM_STATUS
+        &#34;&#34;&#34;
+        command = &#34;show hw info&#34;
+        template = &#34;show_hw_info.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hw_info = self.fsm_parse(command_response, template)
+        return hw_info
+
+    def show_idm(self):
+        &#34;&#34;&#34;Show ID Manager information
+
+        Returns
+        -------
+        dict
+            IDM_CLIENT
+            IDM_PROXY_IP
+            IDM_PROXY
+            RADSEC_CERTIFICATE_STATE
+            RADSEC_CERTIFICATE_ISSUED
+            RADSEC_CERTIFICATE_EXPIRE
+        &#34;&#34;&#34;
+        command = &#34;show idm&#34;
+        template = &#34;show_idm.textfsm&#34;
+
+        command_response = self.send_command(command)
+        idm = self.fsm_parse(command_response, template)
+        return idm
+
+    def show_ip_route(self):
+        &#34;&#34;&#34;Show IP route information
+
+        Returns
+        -------
+        dict
+            DESTINATION
+            GATEWAY
+            NETMASK
+            FLAGS
+            METRIC
+            REF
+            USE
+            IFACE
+        &#34;&#34;&#34;
+        command = &#34;show ip route&#34;
+        template = &#34;show_ip_route.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ip_route = self.fsm_parse(command_response, template)
+        return ip_route
+
+    def show_memory(self):
+        &#34;&#34;&#34;Show RAM information
+
+        Returns
+        -------
+        dict
+            TOTAL_MEMORY
+            FREE_MEMORY
+            USED_MEMORY
+        &#34;&#34;&#34;
+        command = &#34;show memory&#34;
+        template = &#34;show_memory.textfsm&#34;
+
+        command_response = self.send_command(command)
+        memory = self.fsm_parse(command_response, template)
+        return memory
+
+    def show_route(self):
+        &#34;&#34;&#34;Show route information
+
+        Returns
+        -------
+        dict
+            STA
+            NHOP
+            OIF
+            METRIC
+            UPID
+            FLAG
+        &#34;&#34;&#34;
+        command = &#34;show route&#34;
+        template = &#34;show_route.textfsm&#34;
+
+        command_response = self.send_command(command)
+        route = self.fsm_parse(command_response, template)
+        return route
+
+    def show_snmp(self):
+        &#34;&#34;&#34;Show SNMP information
+
+        Returns
+        -------
+        dict
+            SYSLOCATION
+            SYSCONTACT
+            COMMUNITY_NUMBERS
+        &#34;&#34;&#34;
+        command = &#34;show snmp&#34;
+        template = &#34;show_snmp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        snmp = self.fsm_parse(command_response, template)
+        return snmp
+
+    def show_ssid(self):
+        &#34;&#34;&#34;Show SSID information
+
+        Returns
+        -------
+        dict
+            NO
+            NAME
+            FRAG
+            RTS
+            DTIM_PERIOD
+            MAX_CLIENT
+            MAC_FILTER
+        &#34;&#34;&#34;
+        command = &#34;show ssid&#34;
+        template = &#34;show_ssid.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ssid = self.fsm_parse(command_response, template)
+        return ssid
+
+    def show_clock(self):
+        &#34;&#34;&#34;Show AP internal clock
+
+        Returns
+        -------
+        dict
+            DATE,   date
+            TIME,   time of day
+            DAY ,   day of week
+        &#34;&#34;&#34;
+        command = &#34;show clock&#34;
+        template = &#34;show_clock.textfsm&#34;
+
+        command_response = self.send_command(command)
+        clock = self.fsm_parse(command_response, template)
+        return clock
+
+    def show_ntp(self):
+        &#34;&#34;&#34;Show NTP information
+
+        Returns
+        -------
+        dict
+            STATE
+            INTERVAL
+            FIRST
+            SECOND
+            THIRD
+            FOURTH
+            DST
+            DST_START
+            DST_END
+        &#34;&#34;&#34;
+        command = &#34;show ntp&#34;
+        template = &#34;show_ntp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ntp = self.fsm_parse(command_response, template)
+        return ntp
+
+    def show_timezone(self):
+        &#34;&#34;&#34;Show timezone
+
+        Returns
+        -------
+        str
+            TIMEZONE
+        &#34;&#34;&#34;
+        command = &#34;show timezone&#34;
+        template = &#34;show_timezone.textfsm&#34;
+
+        command_response = self.send_command(command)
+        timezone = self.fsm_parse(command_response, template)
+        return timezone</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="aeromiko.aeromiko.AP"><code class="flex name class">
+<span>class <span class="ident">AP</span></span>
+<span>(</span><span>ip, username, password)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AP:
+    def __init__(self, ip: str, username: str, password: str):
+        self.ip = ip
+        self.password = password
+        self.username = username
+
+    def connect(self, port=22, verbosity=False):
+        &#34;&#34;&#34;Establish SSH connection to the access point
+
+        Parameters
+        ----------
+        verbosity : bool, optional
+            Toggle verbose SSH connection information, by default False
+        &#34;&#34;&#34;
+
+        switch = {
+            &#34;device_type&#34;: &#34;cisco_ios&#34;,
+            &#34;ip&#34;: self.ip,
+            &#34;username&#34;: self.username,
+            &#34;password&#34;: self.password,
+            &#34;port&#34;: port,
+            &#34;verbose&#34;: verbosity,
+        }
+
+        self.net_connect = netmiko.ConnectHandler(**switch)
+
+        self.net_connect.find_prompt()
+        self.net_connect.send_command(&#34;console page 0&#34;)
+
+    def disconnect(self):
+        return self.net_connect.disconnect()
+
+    def send_command(self, command: str):
+        &#34;&#34;&#34;Send CLI command to AP and return raw response
+
+        Parameters
+        ----------
+        command : str
+            CLI command to send
+
+        Returns
+        -------
+        str
+            raw CLI response
+        &#34;&#34;&#34;
+        return self.net_connect.send_command(command)
+
+    def send_config(self, command_list: list):
+        &#34;&#34;&#34;Send list of CLI commands to access point
+
+        Parameters
+        ----------
+        command_list : list
+            list of CLI commands to send to AP
+
+        Returns
+        -------
+        str
+            CLI output resulting from AP
+        &#34;&#34;&#34;
+        return self.net_connect.send_config_set(command_list)
+
+    def fsm_parse(self, command_response: str, template=str):
+        &#34;&#34;&#34;Get structured data from CLI command response, via textFSM template
+
+        Parameters
+        ----------
+        command : str
+            response string from CLI
+        template : str
+            raw textFSM template string
+            or
+            name of predefined template from aeromiko package
+        raw : boolean
+
+        Returns
+        -------
+        dict
+            structured data extracted from CLI response
+        &#34;&#34;&#34;
+        if template.startswith(&#34;Value&#34;):
+            textfsm_template = template
+        else:
+            textfsm_template = pkg_resources.read_text(templates, template)
+
+        tmp = tempfile.NamedTemporaryFile(delete=False)
+        with open(tmp.name, &#34;w&#34;) as file:
+            file.write(textfsm_template)
+        with open(tmp.name, &#34;r&#34;) as file:
+            fsm = textfsm.TextFSM(file)
+            fsm_results = fsm.ParseText(command_response)
+            info = [dict(zip(fsm.header, row)) for row in fsm_results]
+        for information in info:
+            for (key, value) in information.items():
+                information[key] = value.strip()
+        return info
+
+    def show_config_running(self):
+        &#34;&#34;&#34;Get running configuration (returns unstructured string)
+
+        Returns
+        -------
+        str
+            unstructured CLI response to &#34;show config running&#34;
+        &#34;&#34;&#34;
+
+        command = &#34;show config running&#34;
+
+        config_running = self.send_command(command)
+        return config_running
+
+    def get_hostname(self):
+        &#34;&#34;&#34;Get hostname
+
+        Returns
+        -------
+        str
+            access point hostname as defined in running configuration
+        &#34;&#34;&#34;
+
+        command = &#34;show config running | i ^hostname&#34;
+        template = &#34;get_hostname.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hostname_info = self.fsm_parse(command_response, template)
+        hostname = hostname_info[0][&#34;HOSTNAME&#34;]
+        return hostname
+
+    def show_version(self):
+        &#34;&#34;&#34;Get version information
+
+        Returns
+        -------
+        dict
+            PLATFORM, AP model
+            UPTIME  , time since last reboot
+        &#34;&#34;&#34;
+        command = &#34;show version&#34;
+        template = &#34;show_version.textfsm&#34;
+
+        command_response = self.send_command(command)
+        version = self.fsm_parse(command_response, template)
+        return version[0]
+
+    def show_cpu(self):
+        &#34;&#34;&#34;Get CPU details
+
+        Returns
+        -------
+        dict
+            CPU_TOTAL , current aggregate CPU utilization
+            CPU_USER  , current user CPU utilization
+            CPU_SYSTEM, current system CPU utilization
+        &#34;&#34;&#34;
+
+        command = &#34;show cpu&#34;
+        template = &#34;show_cpu.textfsm&#34;
+
+        command_response = self.send_command(command)
+        cpu = self.fsm_parse(command_response, template)
+        return cpu[0]
+
+    def show_station(self):
+        &#34;&#34;&#34;Get stations currently associated to this AP
+
+        Returns
+        -------
+        dict
+            IFNAME       , interface station is associated to
+            SSID         , SSID station is associated to
+            MAC_ADDR     , MAC address of station
+            IP_ADDR      , IP address of station
+            CHAN         , channel station is on
+            TX_RATE      , transmit rate to station
+            RX_RATE      , receive rate from station
+            POW_SNR      , power level (d) and signal-to-noise ratio of station
+            ASSOC_MODE   , association mode of station
+            CIPHER       , cipher mode of station
+            ASSOC_TIME   , association time of station
+            VLAN         , user VLAN of station
+            AUTH         , authentication mode of station
+            UPID         , user profile ID assigned to station
+            PHYMODE      , PHY mode of station
+            LDPC         , LDPC code usage by station
+            TX_STBC      , STBC code usage to station
+            RX_STBC      , STBC code usage from station
+            SM_PS        , Spatial Multiplexing Power Save usage by station
+            CHAN_WIDTH   , channel width in use by station
+            MUMIMO       , MUMIMO usage of station
+            RELEASE      , release state of station
+            STATION_STATE, state of station
+        &#34;&#34;&#34;
+
+        command = &#34;show station&#34;
+        template = &#34;show_station.textfsm&#34;
+
+        command_response = self.send_command(command)
+        stations = self.fsm_parse(command_response, template)
+        return stations
+
+    def show_lldp_neighbor(self):
+        &#34;&#34;&#34;Get LLDP neighbor information
+
+        Returns
+        -------
+        dict
+            PORT_DESC  , interface description on LLDP neighbor
+            SYSTEM_NAME, system name of LLDP neighbor
+        &#34;&#34;&#34;
+
+        command = &#34;show lldp neighbor&#34;
+        template = &#34;show_lldp_neighbor.textfsm&#34;
+
+        command_response = self.send_command(command)
+        lldp_neighbor = self.fsm_parse(command_response, template)
+        return lldp_neighbor[0]
+
+    def show_int_eth(self, interface: str):
+        &#34;&#34;&#34;Get ethernet inferface details
+
+        Parameters
+        ----------
+        interface : str
+            eth interface #
+
+        Returns
+        -------
+        dict
+            DUPLEX, ethernet link duplex
+            SPEED , ethernet link speed
+        &#34;&#34;&#34;
+
+        command = &#34;sh int &#34; + interface
+        template = &#34;show_eth.textfsm&#34;
+
+        command_response = self.send_command(command)
+        int_eth = self.fsm_parse(command_response, template)
+        return int_eth[0]
+
+    def show_int_wifi(self, interface: str):
+        &#34;&#34;&#34;Get WiFi interface details
+
+        Parameters
+        ----------
+        interface : str
+            WiFi interface #
+
+        Returns
+        -------
+        dict
+            RX_PACKETS             , receive packets
+            RX_ERR                 , receive errors
+            RX_DROPS               , receive drops
+            TX_PACKETS             , transmit packets
+            TX_ERR                 , transmit errors
+            TX_DROPS               , transmit drops
+            RX_BYTES               , receive bytes
+            TX_BYTES               , transmit bytes
+            RX_AIRTIME_PCT         , receive airtime %
+            TX_AIRTIME_PCT         , transmit airtime %
+            CRC_ERROR_AIRTIME_PCT  , CRC error airtime %
+            TX_UTIL                , receive utilization %
+            RX_UTIL                , transmit utilization %
+            INTERFERENCE_UTIL      , interference utilization %
+            TOTAL_UTIL             , total utilization %
+            RUN_AVG_TX_CU          , running average transmit utilization
+            RUN_AVG_RX_CU          , running average receive utilization
+            RUN_AVG_INTERFERENCE_CU, running average interference utilization
+            RUN_AVG_NOISE          , running average noise utilization
+            STMA_TX_CU             , short time mean average transmit utilization
+            STMA_RX_CU             , short time mean average receive utilization
+            STMA_INTERFERENCE_CU   , short time mean average interference utilization
+            STMA_NOISE             , short time mean average noise utilization
+            SNAP_TX_CU             , snapshot transmit utilization
+            SNAP_RX_CU             , snapshot receive utilization
+            SNAP_INTERFERENCE_CU   , snapshot interference utilization
+            SNAP_NOISE             , snapshot noise utilization
+        &#34;&#34;&#34;
+
+        command = &#34;show int &#34; + interface
+        template = &#34;show_wifi.textfsm&#34;
+
+        command_response = self.send_command(command)
+        int_wifi = self.fsm_parse(command_response, template)
+        return int_wifi
+
+    def show_acsp(self):
+        &#34;&#34;&#34;Get Aerohive Channel Selection Protocol information
+
+        Returns
+        -------
+        dict
+            INTERFACE           , WiFi interface
+            CHANNEL_SELECT_STATE, channel select state
+            PRIMARY_CHANNEL     , primary channel
+            CHANNEL_WIDTH       , channel width
+            POWER_CTRL_STATE    , power control state
+            TX_POWER_DBM        , Transmit power in dBm
+        &#34;&#34;&#34;
+        command = &#34;sh acsp&#34;
+        template = &#34;show_acsp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp = self.fsm_parse(command_response, template)
+        return acsp
+
+    def show_acsp_neighbor(self):
+        &#34;&#34;&#34;Get ACSP neighbors (other APs this device can hear)
+
+        Returns
+        -------
+        dict
+            BSSID        , BSSID of neighbor
+            MODE         , PHY of neighbor
+            SSID         , SSID of neighbor
+            CHANNEL      , channel used by neighbor
+            RSSI         , RSSI of neighbor
+            AEROHIVE     , is neighbor an Aerohive device?
+            CU           , current utilization of neighboring Aerohive device
+            CRC          , CRC erros to/from neighboring Aerohive device
+            STA          , stations on neighboring Aerohive device
+            CHANNEL_WIDTH, channel width of neighbor
+        &#34;&#34;&#34;
+
+        command = &#34;show acsp neighbor&#34;
+        template = &#34;show_acsp_neighbor.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp_neighbors = self.fsm_parse(command_response, template)
+        return acsp_neighbors
+
+    def show_boot_param(self):
+        &#34;&#34;&#34;Show boot parameters
+
+        Returns
+        -------
+        dict
+            DEVICE_IP
+            NETMASK
+            TFTP_SERVER_IP
+            GATEWAY_IP
+            VLAN_ID
+            NATIVE_VLAN_ID
+            NETBOOT_ALWAYS
+            NETBOOT
+            BOOT_FILE
+            NETDUMP
+            NETDUMP_FILE
+            REGION_CODE
+            COUNTRY_CODE
+        &#34;&#34;&#34;
+        command = &#34;show boot-param&#34;
+        template = &#34;show_boot_param.textfsm&#34;
+
+        command_response = self.send_command(command)
+        boot_params = self.fsm_parse(command_response, template)
+        return boot_params
+
+    def show_acsp_channel_info(self):
+        &#34;&#34;&#34;Show ACSP decision details for all radios
+
+        Returns
+        -------
+        dict
+            INT
+            INT_VALUE
+            STATE
+            LOWEST_COST_CHANNEL
+            LOWEST_COST
+            CHANNEL
+            CHANNEL_OVERLAP
+            CHANNEL_COST
+        &#34;&#34;&#34;
+        command = &#34;show acsp channel-info&#34;
+        template = &#34;show_acsp_channel_info.textfsm&#34;
+
+        command_response = self.send_command(command)
+        acsp_neighbor_info = self.fsm_parse(command_response, template)
+        return acsp_neighbor_info
+
+    def show_capwap_client(self):
+        &#34;&#34;&#34;Show capwap client information
+
+        Returns
+        -------
+        dict
+            CAPWAP_CLIENT
+            CAPWAP_TRANSPORT_MODE
+            RUN_STATE
+            CAPWAP_CLIENT_IP
+            CAPWAP_SERVER_IP
+            HIVEMANAGER_PRIMARY_NAME
+            HIVEMANAGER_BACKUP_NAME
+            CAPWAP_DEFAULT_SERVER_NAME
+            VIRTUAL_HIVEMANAGER_NAME
+            SERVER_DESTINATION_PORT
+            CAPWAP_SEND_EVENT
+            CAPWAP_DTLS_STATE
+            CAPWAP_DTLS_NEGOTIATION
+            DTLS_NEXT_CONNECT_STATUS
+            DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE
+            DTLS_SESSION_STATUS
+            DTLS_KEY_TYPE
+            DTLS_SESSION_CUT_INTERVAL
+            DTLS_HANDSHAKE_WAIT_INTERVAL
+            DTLS_MAX_RETRY_COUNT
+            DTLS_AUTHORIZE_FAILED
+            DTLS_RECONNECT_COUNT
+            DISCOVERY_INTERVAL
+            HEARTBEAT_INTERVAL
+            MAX_DISCOVERY_INTERVAL
+            NEIGHBOR_DEAD_INTERVAL
+            SILENT_INTERVAL
+            WAIT_JOIN_INTERVAL
+            DISCOVERY_COUNT
+            MAX_DISCOVERY_COUNT
+            RETRANSMIT_COUNT
+            MAX_RETRANSMIT_COUNT
+            PRIMARY_SERVER_TRIES
+            BACKUP_SERVER_TRIES
+            KEEPALIVES_LOST_SENT
+            EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE
+            EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION
+        &#34;&#34;&#34;
+        command = &#34;show capwap client&#34;
+        template = &#34;show_capwap_client.textfsm&#34;
+
+        command_response = self.send_command(command)
+        capwap_client = self.fsm_parse(command_response, template)
+        return capwap_client
+
+    def show_console(self):
+        &#34;&#34;&#34;Show console port information
+
+        Returns
+        -------
+        dict
+            CONSOLE_LINES            , # lines in console output
+            CONSOLE_TIMEOUT          , console timeout (seconds)
+            SERIAL_STATUS            , status of serial port
+            CONSOLE_OBSCURE_PASSWORDS, obscure console passwords?
+        &#34;&#34;&#34;
+        command = &#34;show console&#34;
+        template = &#34;show_console.textfsm&#34;
+
+        command_response = self.send_command(command)
+        console = self.fsm_parse(command_response, template)
+        return console
+
+    def show_dns(self):
+        &#34;&#34;&#34;Show DNS information
+
+        Returns
+        -------
+        dict
+            DNS_SERVER_FROM_DHCP
+            DOMAIN_NAME_SUFFIX
+            PRIMARY
+            SECONDARY
+            TERTIARY
+        &#34;&#34;&#34;
+        command = &#34;show dns&#34;
+        template = &#34;show_dns.textfsm&#34;
+
+        command_response = self.send_command(command)
+        dns = self.fsm_parse(command_response, template)
+        return dns
+
+    def show_hivemanager(self):
+        &#34;&#34;&#34;Show HiveManager information
+
+        Returns
+        -------
+        dict
+            HM_PRIMARY
+            HM_BACKUP
+            HM_CONNECTION
+        &#34;&#34;&#34;
+        command = &#34;show hivemanager&#34;
+        template = &#34;show_hivemanager.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hivemanager = self.fsm_parse(command_response, template)
+        return hivemanager
+
+    def show_hw_info(self):
+        &#34;&#34;&#34;Show hardware information
+
+        Returns
+        -------
+        dict
+            ETHERNET_MAC_ADDRESS
+            SERIAL_NUMBER
+            HARDWARE_REVISION
+            PRODUCT_NAME
+            HARDWARE_ID
+            MANUFACTURING_DATE
+            NUMBER_OF_MAC_ADDRESSES
+            MANUFACTURING_VERSION
+            ANTENNA_ID
+            AEROHIVE_HARDWARE_KEY
+            HW_AUTH_DEVICE_STATUS
+            TPM_STATUS
+        &#34;&#34;&#34;
+        command = &#34;show hw info&#34;
+        template = &#34;show_hw_info.textfsm&#34;
+
+        command_response = self.send_command(command)
+        hw_info = self.fsm_parse(command_response, template)
+        return hw_info
+
+    def show_idm(self):
+        &#34;&#34;&#34;Show ID Manager information
+
+        Returns
+        -------
+        dict
+            IDM_CLIENT
+            IDM_PROXY_IP
+            IDM_PROXY
+            RADSEC_CERTIFICATE_STATE
+            RADSEC_CERTIFICATE_ISSUED
+            RADSEC_CERTIFICATE_EXPIRE
+        &#34;&#34;&#34;
+        command = &#34;show idm&#34;
+        template = &#34;show_idm.textfsm&#34;
+
+        command_response = self.send_command(command)
+        idm = self.fsm_parse(command_response, template)
+        return idm
+
+    def show_ip_route(self):
+        &#34;&#34;&#34;Show IP route information
+
+        Returns
+        -------
+        dict
+            DESTINATION
+            GATEWAY
+            NETMASK
+            FLAGS
+            METRIC
+            REF
+            USE
+            IFACE
+        &#34;&#34;&#34;
+        command = &#34;show ip route&#34;
+        template = &#34;show_ip_route.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ip_route = self.fsm_parse(command_response, template)
+        return ip_route
+
+    def show_memory(self):
+        &#34;&#34;&#34;Show RAM information
+
+        Returns
+        -------
+        dict
+            TOTAL_MEMORY
+            FREE_MEMORY
+            USED_MEMORY
+        &#34;&#34;&#34;
+        command = &#34;show memory&#34;
+        template = &#34;show_memory.textfsm&#34;
+
+        command_response = self.send_command(command)
+        memory = self.fsm_parse(command_response, template)
+        return memory
+
+    def show_route(self):
+        &#34;&#34;&#34;Show route information
+
+        Returns
+        -------
+        dict
+            STA
+            NHOP
+            OIF
+            METRIC
+            UPID
+            FLAG
+        &#34;&#34;&#34;
+        command = &#34;show route&#34;
+        template = &#34;show_route.textfsm&#34;
+
+        command_response = self.send_command(command)
+        route = self.fsm_parse(command_response, template)
+        return route
+
+    def show_snmp(self):
+        &#34;&#34;&#34;Show SNMP information
+
+        Returns
+        -------
+        dict
+            SYSLOCATION
+            SYSCONTACT
+            COMMUNITY_NUMBERS
+        &#34;&#34;&#34;
+        command = &#34;show snmp&#34;
+        template = &#34;show_snmp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        snmp = self.fsm_parse(command_response, template)
+        return snmp
+
+    def show_ssid(self):
+        &#34;&#34;&#34;Show SSID information
+
+        Returns
+        -------
+        dict
+            NO
+            NAME
+            FRAG
+            RTS
+            DTIM_PERIOD
+            MAX_CLIENT
+            MAC_FILTER
+        &#34;&#34;&#34;
+        command = &#34;show ssid&#34;
+        template = &#34;show_ssid.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ssid = self.fsm_parse(command_response, template)
+        return ssid
+
+    def show_clock(self):
+        &#34;&#34;&#34;Show AP internal clock
+
+        Returns
+        -------
+        dict
+            DATE,   date
+            TIME,   time of day
+            DAY ,   day of week
+        &#34;&#34;&#34;
+        command = &#34;show clock&#34;
+        template = &#34;show_clock.textfsm&#34;
+
+        command_response = self.send_command(command)
+        clock = self.fsm_parse(command_response, template)
+        return clock
+
+    def show_ntp(self):
+        &#34;&#34;&#34;Show NTP information
+
+        Returns
+        -------
+        dict
+            STATE
+            INTERVAL
+            FIRST
+            SECOND
+            THIRD
+            FOURTH
+            DST
+            DST_START
+            DST_END
+        &#34;&#34;&#34;
+        command = &#34;show ntp&#34;
+        template = &#34;show_ntp.textfsm&#34;
+
+        command_response = self.send_command(command)
+        ntp = self.fsm_parse(command_response, template)
+        return ntp
+
+    def show_timezone(self):
+        &#34;&#34;&#34;Show timezone
+
+        Returns
+        -------
+        str
+            TIMEZONE
+        &#34;&#34;&#34;
+        command = &#34;show timezone&#34;
+        template = &#34;show_timezone.textfsm&#34;
+
+        command_response = self.send_command(command)
+        timezone = self.fsm_parse(command_response, template)
+        return timezone</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="aeromiko.aeromiko.AP.connect"><code class="name flex">
+<span>def <span class="ident">connect</span></span>(<span>self, port=22, verbosity=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Establish SSH connection to the access point</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>verbosity</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Toggle verbose SSH connection information, by default False</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def connect(self, port=22, verbosity=False):
+    &#34;&#34;&#34;Establish SSH connection to the access point
+
+    Parameters
+    ----------
+    verbosity : bool, optional
+        Toggle verbose SSH connection information, by default False
+    &#34;&#34;&#34;
+
+    switch = {
+        &#34;device_type&#34;: &#34;cisco_ios&#34;,
+        &#34;ip&#34;: self.ip,
+        &#34;username&#34;: self.username,
+        &#34;password&#34;: self.password,
+        &#34;port&#34;: port,
+        &#34;verbose&#34;: verbosity,
+    }
+
+    self.net_connect = netmiko.ConnectHandler(**switch)
+
+    self.net_connect.find_prompt()
+    self.net_connect.send_command(&#34;console page 0&#34;)</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.disconnect"><code class="name flex">
+<span>def <span class="ident">disconnect</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disconnect(self):
+    return self.net_connect.disconnect()</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.fsm_parse"><code class="name flex">
+<span>def <span class="ident">fsm_parse</span></span>(<span>self, command_response, template=builtins.str)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get structured data from CLI command response, via textFSM template</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>command</code></strong> :&ensp;<code>str</code></dt>
+<dd>response string from CLI</dd>
+<dt><strong><code>template</code></strong> :&ensp;<code>str</code></dt>
+<dd>raw textFSM template string
+or
+name of predefined template from aeromiko package</dd>
+<dt><strong><code>raw</code></strong> :&ensp;<code>boolean</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>structured data extracted from CLI response</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fsm_parse(self, command_response: str, template=str):
+    &#34;&#34;&#34;Get structured data from CLI command response, via textFSM template
+
+    Parameters
+    ----------
+    command : str
+        response string from CLI
+    template : str
+        raw textFSM template string
+        or
+        name of predefined template from aeromiko package
+    raw : boolean
+
+    Returns
+    -------
+    dict
+        structured data extracted from CLI response
+    &#34;&#34;&#34;
+    if template.startswith(&#34;Value&#34;):
+        textfsm_template = template
+    else:
+        textfsm_template = pkg_resources.read_text(templates, template)
+
+    tmp = tempfile.NamedTemporaryFile(delete=False)
+    with open(tmp.name, &#34;w&#34;) as file:
+        file.write(textfsm_template)
+    with open(tmp.name, &#34;r&#34;) as file:
+        fsm = textfsm.TextFSM(file)
+        fsm_results = fsm.ParseText(command_response)
+        info = [dict(zip(fsm.header, row)) for row in fsm_results]
+    for information in info:
+        for (key, value) in information.items():
+            information[key] = value.strip()
+    return info</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.get_hostname"><code class="name flex">
+<span>def <span class="ident">get_hostname</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get hostname</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>access point hostname as defined in running configuration</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_hostname(self):
+    &#34;&#34;&#34;Get hostname
+
+    Returns
+    -------
+    str
+        access point hostname as defined in running configuration
+    &#34;&#34;&#34;
+
+    command = &#34;show config running | i ^hostname&#34;
+    template = &#34;get_hostname.textfsm&#34;
+
+    command_response = self.send_command(command)
+    hostname_info = self.fsm_parse(command_response, template)
+    hostname = hostname_info[0][&#34;HOSTNAME&#34;]
+    return hostname</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.send_command"><code class="name flex">
+<span>def <span class="ident">send_command</span></span>(<span>self, command)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Send CLI command to AP and return raw response</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>command</code></strong> :&ensp;<code>str</code></dt>
+<dd>CLI command to send</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>raw CLI response</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_command(self, command: str):
+    &#34;&#34;&#34;Send CLI command to AP and return raw response
+
+    Parameters
+    ----------
+    command : str
+        CLI command to send
+
+    Returns
+    -------
+    str
+        raw CLI response
+    &#34;&#34;&#34;
+    return self.net_connect.send_command(command)</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.send_config"><code class="name flex">
+<span>def <span class="ident">send_config</span></span>(<span>self, command_list)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Send list of CLI commands to access point</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>command_list</code></strong> :&ensp;<code>list</code></dt>
+<dd>list of CLI commands to send to AP</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>CLI output resulting from AP</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_config(self, command_list: list):
+    &#34;&#34;&#34;Send list of CLI commands to access point
+
+    Parameters
+    ----------
+    command_list : list
+        list of CLI commands to send to AP
+
+    Returns
+    -------
+    str
+        CLI output resulting from AP
+    &#34;&#34;&#34;
+    return self.net_connect.send_config_set(command_list)</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_acsp"><code class="name flex">
+<span>def <span class="ident">show_acsp</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get Aerohive Channel Selection Protocol information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>INTERFACE
+, WiFi interface
+CHANNEL_SELECT_STATE, channel select state
+PRIMARY_CHANNEL
+, primary channel
+CHANNEL_WIDTH
+, channel width
+POWER_CTRL_STATE
+, power control state
+TX_POWER_DBM
+, Transmit power in dBm</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_acsp(self):
+    &#34;&#34;&#34;Get Aerohive Channel Selection Protocol information
+
+    Returns
+    -------
+    dict
+        INTERFACE           , WiFi interface
+        CHANNEL_SELECT_STATE, channel select state
+        PRIMARY_CHANNEL     , primary channel
+        CHANNEL_WIDTH       , channel width
+        POWER_CTRL_STATE    , power control state
+        TX_POWER_DBM        , Transmit power in dBm
+    &#34;&#34;&#34;
+    command = &#34;sh acsp&#34;
+    template = &#34;show_acsp.textfsm&#34;
+
+    command_response = self.send_command(command)
+    acsp = self.fsm_parse(command_response, template)
+    return acsp</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_acsp_channel_info"><code class="name flex">
+<span>def <span class="ident">show_acsp_channel_info</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show ACSP decision details for all radios</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>INT
+INT_VALUE
+STATE
+LOWEST_COST_CHANNEL
+LOWEST_COST
+CHANNEL
+CHANNEL_OVERLAP
+CHANNEL_COST</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_acsp_channel_info(self):
+    &#34;&#34;&#34;Show ACSP decision details for all radios
+
+    Returns
+    -------
+    dict
+        INT
+        INT_VALUE
+        STATE
+        LOWEST_COST_CHANNEL
+        LOWEST_COST
+        CHANNEL
+        CHANNEL_OVERLAP
+        CHANNEL_COST
+    &#34;&#34;&#34;
+    command = &#34;show acsp channel-info&#34;
+    template = &#34;show_acsp_channel_info.textfsm&#34;
+
+    command_response = self.send_command(command)
+    acsp_neighbor_info = self.fsm_parse(command_response, template)
+    return acsp_neighbor_info</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_acsp_neighbor"><code class="name flex">
+<span>def <span class="ident">show_acsp_neighbor</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get ACSP neighbors (other APs this device can hear)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>BSSID
+, BSSID of neighbor
+MODE
+, PHY of neighbor
+SSID
+, SSID of neighbor
+CHANNEL
+, channel used by neighbor
+RSSI
+, RSSI of neighbor
+AEROHIVE
+, is neighbor an Aerohive device?
+CU
+, current utilization of neighboring Aerohive device
+CRC
+, CRC erros to/from neighboring Aerohive device
+STA
+, stations on neighboring Aerohive device
+CHANNEL_WIDTH, channel width of neighbor</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_acsp_neighbor(self):
+    &#34;&#34;&#34;Get ACSP neighbors (other APs this device can hear)
+
+    Returns
+    -------
+    dict
+        BSSID        , BSSID of neighbor
+        MODE         , PHY of neighbor
+        SSID         , SSID of neighbor
+        CHANNEL      , channel used by neighbor
+        RSSI         , RSSI of neighbor
+        AEROHIVE     , is neighbor an Aerohive device?
+        CU           , current utilization of neighboring Aerohive device
+        CRC          , CRC erros to/from neighboring Aerohive device
+        STA          , stations on neighboring Aerohive device
+        CHANNEL_WIDTH, channel width of neighbor
+    &#34;&#34;&#34;
+
+    command = &#34;show acsp neighbor&#34;
+    template = &#34;show_acsp_neighbor.textfsm&#34;
+
+    command_response = self.send_command(command)
+    acsp_neighbors = self.fsm_parse(command_response, template)
+    return acsp_neighbors</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_boot_param"><code class="name flex">
+<span>def <span class="ident">show_boot_param</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show boot parameters</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>DEVICE_IP
+NETMASK
+TFTP_SERVER_IP
+GATEWAY_IP
+VLAN_ID
+NATIVE_VLAN_ID
+NETBOOT_ALWAYS
+NETBOOT
+BOOT_FILE
+NETDUMP
+NETDUMP_FILE
+REGION_CODE
+COUNTRY_CODE</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_boot_param(self):
+    &#34;&#34;&#34;Show boot parameters
+
+    Returns
+    -------
+    dict
+        DEVICE_IP
+        NETMASK
+        TFTP_SERVER_IP
+        GATEWAY_IP
+        VLAN_ID
+        NATIVE_VLAN_ID
+        NETBOOT_ALWAYS
+        NETBOOT
+        BOOT_FILE
+        NETDUMP
+        NETDUMP_FILE
+        REGION_CODE
+        COUNTRY_CODE
+    &#34;&#34;&#34;
+    command = &#34;show boot-param&#34;
+    template = &#34;show_boot_param.textfsm&#34;
+
+    command_response = self.send_command(command)
+    boot_params = self.fsm_parse(command_response, template)
+    return boot_params</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_capwap_client"><code class="name flex">
+<span>def <span class="ident">show_capwap_client</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show capwap client information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>CAPWAP_CLIENT
+CAPWAP_TRANSPORT_MODE
+RUN_STATE
+CAPWAP_CLIENT_IP
+CAPWAP_SERVER_IP
+HIVEMANAGER_PRIMARY_NAME
+HIVEMANAGER_BACKUP_NAME
+CAPWAP_DEFAULT_SERVER_NAME
+VIRTUAL_HIVEMANAGER_NAME
+SERVER_DESTINATION_PORT
+CAPWAP_SEND_EVENT
+CAPWAP_DTLS_STATE
+CAPWAP_DTLS_NEGOTIATION
+DTLS_NEXT_CONNECT_STATUS
+DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE
+DTLS_SESSION_STATUS
+DTLS_KEY_TYPE
+DTLS_SESSION_CUT_INTERVAL
+DTLS_HANDSHAKE_WAIT_INTERVAL
+DTLS_MAX_RETRY_COUNT
+DTLS_AUTHORIZE_FAILED
+DTLS_RECONNECT_COUNT
+DISCOVERY_INTERVAL
+HEARTBEAT_INTERVAL
+MAX_DISCOVERY_INTERVAL
+NEIGHBOR_DEAD_INTERVAL
+SILENT_INTERVAL
+WAIT_JOIN_INTERVAL
+DISCOVERY_COUNT
+MAX_DISCOVERY_COUNT
+RETRANSMIT_COUNT
+MAX_RETRANSMIT_COUNT
+PRIMARY_SERVER_TRIES
+BACKUP_SERVER_TRIES
+KEEPALIVES_LOST_SENT
+EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE
+EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_capwap_client(self):
+    &#34;&#34;&#34;Show capwap client information
+
+    Returns
+    -------
+    dict
+        CAPWAP_CLIENT
+        CAPWAP_TRANSPORT_MODE
+        RUN_STATE
+        CAPWAP_CLIENT_IP
+        CAPWAP_SERVER_IP
+        HIVEMANAGER_PRIMARY_NAME
+        HIVEMANAGER_BACKUP_NAME
+        CAPWAP_DEFAULT_SERVER_NAME
+        VIRTUAL_HIVEMANAGER_NAME
+        SERVER_DESTINATION_PORT
+        CAPWAP_SEND_EVENT
+        CAPWAP_DTLS_STATE
+        CAPWAP_DTLS_NEGOTIATION
+        DTLS_NEXT_CONNECT_STATUS
+        DTLS_ALWAYS_ACCEPT_BOOTSTRAP_PASSPHRASE
+        DTLS_SESSION_STATUS
+        DTLS_KEY_TYPE
+        DTLS_SESSION_CUT_INTERVAL
+        DTLS_HANDSHAKE_WAIT_INTERVAL
+        DTLS_MAX_RETRY_COUNT
+        DTLS_AUTHORIZE_FAILED
+        DTLS_RECONNECT_COUNT
+        DISCOVERY_INTERVAL
+        HEARTBEAT_INTERVAL
+        MAX_DISCOVERY_INTERVAL
+        NEIGHBOR_DEAD_INTERVAL
+        SILENT_INTERVAL
+        WAIT_JOIN_INTERVAL
+        DISCOVERY_COUNT
+        MAX_DISCOVERY_COUNT
+        RETRANSMIT_COUNT
+        MAX_RETRANSMIT_COUNT
+        PRIMARY_SERVER_TRIES
+        BACKUP_SERVER_TRIES
+        KEEPALIVES_LOST_SENT
+        EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE
+        EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION
+    &#34;&#34;&#34;
+    command = &#34;show capwap client&#34;
+    template = &#34;show_capwap_client.textfsm&#34;
+
+    command_response = self.send_command(command)
+    capwap_client = self.fsm_parse(command_response, template)
+    return capwap_client</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_clock"><code class="name flex">
+<span>def <span class="ident">show_clock</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show AP internal clock</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>DATE,
+date
+TIME,
+time of day
+DAY ,
+day of week</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_clock(self):
+    &#34;&#34;&#34;Show AP internal clock
+
+    Returns
+    -------
+    dict
+        DATE,   date
+        TIME,   time of day
+        DAY ,   day of week
+    &#34;&#34;&#34;
+    command = &#34;show clock&#34;
+    template = &#34;show_clock.textfsm&#34;
+
+    command_response = self.send_command(command)
+    clock = self.fsm_parse(command_response, template)
+    return clock</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_config_running"><code class="name flex">
+<span>def <span class="ident">show_config_running</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get running configuration (returns unstructured string)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>unstructured CLI response to "show config running"</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_config_running(self):
+    &#34;&#34;&#34;Get running configuration (returns unstructured string)
+
+    Returns
+    -------
+    str
+        unstructured CLI response to &#34;show config running&#34;
+    &#34;&#34;&#34;
+
+    command = &#34;show config running&#34;
+
+    config_running = self.send_command(command)
+    return config_running</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_console"><code class="name flex">
+<span>def <span class="ident">show_console</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show console port information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>CONSOLE_LINES
+, # lines in console output
+CONSOLE_TIMEOUT
+, console timeout (seconds)
+SERIAL_STATUS
+, status of serial port
+CONSOLE_OBSCURE_PASSWORDS, obscure console passwords?</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_console(self):
+    &#34;&#34;&#34;Show console port information
+
+    Returns
+    -------
+    dict
+        CONSOLE_LINES            , # lines in console output
+        CONSOLE_TIMEOUT          , console timeout (seconds)
+        SERIAL_STATUS            , status of serial port
+        CONSOLE_OBSCURE_PASSWORDS, obscure console passwords?
+    &#34;&#34;&#34;
+    command = &#34;show console&#34;
+    template = &#34;show_console.textfsm&#34;
+
+    command_response = self.send_command(command)
+    console = self.fsm_parse(command_response, template)
+    return console</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_cpu"><code class="name flex">
+<span>def <span class="ident">show_cpu</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get CPU details</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>CPU_TOTAL , current aggregate CPU utilization
+CPU_USER
+, current user CPU utilization
+CPU_SYSTEM, current system CPU utilization</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_cpu(self):
+    &#34;&#34;&#34;Get CPU details
+
+    Returns
+    -------
+    dict
+        CPU_TOTAL , current aggregate CPU utilization
+        CPU_USER  , current user CPU utilization
+        CPU_SYSTEM, current system CPU utilization
+    &#34;&#34;&#34;
+
+    command = &#34;show cpu&#34;
+    template = &#34;show_cpu.textfsm&#34;
+
+    command_response = self.send_command(command)
+    cpu = self.fsm_parse(command_response, template)
+    return cpu[0]</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_dns"><code class="name flex">
+<span>def <span class="ident">show_dns</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show DNS information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>DNS_SERVER_FROM_DHCP
+DOMAIN_NAME_SUFFIX
+PRIMARY
+SECONDARY
+TERTIARY</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_dns(self):
+    &#34;&#34;&#34;Show DNS information
+
+    Returns
+    -------
+    dict
+        DNS_SERVER_FROM_DHCP
+        DOMAIN_NAME_SUFFIX
+        PRIMARY
+        SECONDARY
+        TERTIARY
+    &#34;&#34;&#34;
+    command = &#34;show dns&#34;
+    template = &#34;show_dns.textfsm&#34;
+
+    command_response = self.send_command(command)
+    dns = self.fsm_parse(command_response, template)
+    return dns</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_hivemanager"><code class="name flex">
+<span>def <span class="ident">show_hivemanager</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show HiveManager information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>HM_PRIMARY
+HM_BACKUP
+HM_CONNECTION</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_hivemanager(self):
+    &#34;&#34;&#34;Show HiveManager information
+
+    Returns
+    -------
+    dict
+        HM_PRIMARY
+        HM_BACKUP
+        HM_CONNECTION
+    &#34;&#34;&#34;
+    command = &#34;show hivemanager&#34;
+    template = &#34;show_hivemanager.textfsm&#34;
+
+    command_response = self.send_command(command)
+    hivemanager = self.fsm_parse(command_response, template)
+    return hivemanager</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_hw_info"><code class="name flex">
+<span>def <span class="ident">show_hw_info</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show hardware information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>ETHERNET_MAC_ADDRESS
+SERIAL_NUMBER
+HARDWARE_REVISION
+PRODUCT_NAME
+HARDWARE_ID
+MANUFACTURING_DATE
+NUMBER_OF_MAC_ADDRESSES
+MANUFACTURING_VERSION
+ANTENNA_ID
+AEROHIVE_HARDWARE_KEY
+HW_AUTH_DEVICE_STATUS
+TPM_STATUS</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_hw_info(self):
+    &#34;&#34;&#34;Show hardware information
+
+    Returns
+    -------
+    dict
+        ETHERNET_MAC_ADDRESS
+        SERIAL_NUMBER
+        HARDWARE_REVISION
+        PRODUCT_NAME
+        HARDWARE_ID
+        MANUFACTURING_DATE
+        NUMBER_OF_MAC_ADDRESSES
+        MANUFACTURING_VERSION
+        ANTENNA_ID
+        AEROHIVE_HARDWARE_KEY
+        HW_AUTH_DEVICE_STATUS
+        TPM_STATUS
+    &#34;&#34;&#34;
+    command = &#34;show hw info&#34;
+    template = &#34;show_hw_info.textfsm&#34;
+
+    command_response = self.send_command(command)
+    hw_info = self.fsm_parse(command_response, template)
+    return hw_info</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_idm"><code class="name flex">
+<span>def <span class="ident">show_idm</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show ID Manager information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>IDM_CLIENT
+IDM_PROXY_IP
+IDM_PROXY
+RADSEC_CERTIFICATE_STATE
+RADSEC_CERTIFICATE_ISSUED
+RADSEC_CERTIFICATE_EXPIRE</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_idm(self):
+    &#34;&#34;&#34;Show ID Manager information
+
+    Returns
+    -------
+    dict
+        IDM_CLIENT
+        IDM_PROXY_IP
+        IDM_PROXY
+        RADSEC_CERTIFICATE_STATE
+        RADSEC_CERTIFICATE_ISSUED
+        RADSEC_CERTIFICATE_EXPIRE
+    &#34;&#34;&#34;
+    command = &#34;show idm&#34;
+    template = &#34;show_idm.textfsm&#34;
+
+    command_response = self.send_command(command)
+    idm = self.fsm_parse(command_response, template)
+    return idm</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_int_eth"><code class="name flex">
+<span>def <span class="ident">show_int_eth</span></span>(<span>self, interface)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get ethernet inferface details</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>interface</code></strong> :&ensp;<code>str</code></dt>
+<dd>eth interface #</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>DUPLEX, ethernet link duplex
+SPEED , ethernet link speed</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_int_eth(self, interface: str):
+    &#34;&#34;&#34;Get ethernet inferface details
+
+    Parameters
+    ----------
+    interface : str
+        eth interface #
+
+    Returns
+    -------
+    dict
+        DUPLEX, ethernet link duplex
+        SPEED , ethernet link speed
+    &#34;&#34;&#34;
+
+    command = &#34;sh int &#34; + interface
+    template = &#34;show_eth.textfsm&#34;
+
+    command_response = self.send_command(command)
+    int_eth = self.fsm_parse(command_response, template)
+    return int_eth[0]</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_int_wifi"><code class="name flex">
+<span>def <span class="ident">show_int_wifi</span></span>(<span>self, interface)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get WiFi interface details</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>interface</code></strong> :&ensp;<code>str</code></dt>
+<dd>WiFi interface #</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>RX_PACKETS
+, receive packets
+RX_ERR
+, receive errors
+RX_DROPS
+, receive drops
+TX_PACKETS
+, transmit packets
+TX_ERR
+, transmit errors
+TX_DROPS
+, transmit drops
+RX_BYTES
+, receive bytes
+TX_BYTES
+, transmit bytes
+RX_AIRTIME_PCT
+, receive airtime %
+TX_AIRTIME_PCT
+, transmit airtime %
+CRC_ERROR_AIRTIME_PCT
+, CRC error airtime %
+TX_UTIL
+, receive utilization %
+RX_UTIL
+, transmit utilization %
+INTERFERENCE_UTIL
+, interference utilization %
+TOTAL_UTIL
+, total utilization %
+RUN_AVG_TX_CU
+, running average transmit utilization
+RUN_AVG_RX_CU
+, running average receive utilization
+RUN_AVG_INTERFERENCE_CU, running average interference utilization
+RUN_AVG_NOISE
+, running average noise utilization
+STMA_TX_CU
+, short time mean average transmit utilization
+STMA_RX_CU
+, short time mean average receive utilization
+STMA_INTERFERENCE_CU
+, short time mean average interference utilization
+STMA_NOISE
+, short time mean average noise utilization
+SNAP_TX_CU
+, snapshot transmit utilization
+SNAP_RX_CU
+, snapshot receive utilization
+SNAP_INTERFERENCE_CU
+, snapshot interference utilization
+SNAP_NOISE
+, snapshot noise utilization</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_int_wifi(self, interface: str):
+    &#34;&#34;&#34;Get WiFi interface details
+
+    Parameters
+    ----------
+    interface : str
+        WiFi interface #
+
+    Returns
+    -------
+    dict
+        RX_PACKETS             , receive packets
+        RX_ERR                 , receive errors
+        RX_DROPS               , receive drops
+        TX_PACKETS             , transmit packets
+        TX_ERR                 , transmit errors
+        TX_DROPS               , transmit drops
+        RX_BYTES               , receive bytes
+        TX_BYTES               , transmit bytes
+        RX_AIRTIME_PCT         , receive airtime %
+        TX_AIRTIME_PCT         , transmit airtime %
+        CRC_ERROR_AIRTIME_PCT  , CRC error airtime %
+        TX_UTIL                , receive utilization %
+        RX_UTIL                , transmit utilization %
+        INTERFERENCE_UTIL      , interference utilization %
+        TOTAL_UTIL             , total utilization %
+        RUN_AVG_TX_CU          , running average transmit utilization
+        RUN_AVG_RX_CU          , running average receive utilization
+        RUN_AVG_INTERFERENCE_CU, running average interference utilization
+        RUN_AVG_NOISE          , running average noise utilization
+        STMA_TX_CU             , short time mean average transmit utilization
+        STMA_RX_CU             , short time mean average receive utilization
+        STMA_INTERFERENCE_CU   , short time mean average interference utilization
+        STMA_NOISE             , short time mean average noise utilization
+        SNAP_TX_CU             , snapshot transmit utilization
+        SNAP_RX_CU             , snapshot receive utilization
+        SNAP_INTERFERENCE_CU   , snapshot interference utilization
+        SNAP_NOISE             , snapshot noise utilization
+    &#34;&#34;&#34;
+
+    command = &#34;show int &#34; + interface
+    template = &#34;show_wifi.textfsm&#34;
+
+    command_response = self.send_command(command)
+    int_wifi = self.fsm_parse(command_response, template)
+    return int_wifi</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_ip_route"><code class="name flex">
+<span>def <span class="ident">show_ip_route</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show IP route information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>DESTINATION
+GATEWAY
+NETMASK
+FLAGS
+METRIC
+REF
+USE
+IFACE</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_ip_route(self):
+    &#34;&#34;&#34;Show IP route information
+
+    Returns
+    -------
+    dict
+        DESTINATION
+        GATEWAY
+        NETMASK
+        FLAGS
+        METRIC
+        REF
+        USE
+        IFACE
+    &#34;&#34;&#34;
+    command = &#34;show ip route&#34;
+    template = &#34;show_ip_route.textfsm&#34;
+
+    command_response = self.send_command(command)
+    ip_route = self.fsm_parse(command_response, template)
+    return ip_route</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_lldp_neighbor"><code class="name flex">
+<span>def <span class="ident">show_lldp_neighbor</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get LLDP neighbor information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>PORT_DESC
+, interface description on LLDP neighbor
+SYSTEM_NAME, system name of LLDP neighbor</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_lldp_neighbor(self):
+    &#34;&#34;&#34;Get LLDP neighbor information
+
+    Returns
+    -------
+    dict
+        PORT_DESC  , interface description on LLDP neighbor
+        SYSTEM_NAME, system name of LLDP neighbor
+    &#34;&#34;&#34;
+
+    command = &#34;show lldp neighbor&#34;
+    template = &#34;show_lldp_neighbor.textfsm&#34;
+
+    command_response = self.send_command(command)
+    lldp_neighbor = self.fsm_parse(command_response, template)
+    return lldp_neighbor[0]</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_memory"><code class="name flex">
+<span>def <span class="ident">show_memory</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show RAM information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>TOTAL_MEMORY
+FREE_MEMORY
+USED_MEMORY</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_memory(self):
+    &#34;&#34;&#34;Show RAM information
+
+    Returns
+    -------
+    dict
+        TOTAL_MEMORY
+        FREE_MEMORY
+        USED_MEMORY
+    &#34;&#34;&#34;
+    command = &#34;show memory&#34;
+    template = &#34;show_memory.textfsm&#34;
+
+    command_response = self.send_command(command)
+    memory = self.fsm_parse(command_response, template)
+    return memory</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_ntp"><code class="name flex">
+<span>def <span class="ident">show_ntp</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show NTP information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>STATE
+INTERVAL
+FIRST
+SECOND
+THIRD
+FOURTH
+DST
+DST_START
+DST_END</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_ntp(self):
+    &#34;&#34;&#34;Show NTP information
+
+    Returns
+    -------
+    dict
+        STATE
+        INTERVAL
+        FIRST
+        SECOND
+        THIRD
+        FOURTH
+        DST
+        DST_START
+        DST_END
+    &#34;&#34;&#34;
+    command = &#34;show ntp&#34;
+    template = &#34;show_ntp.textfsm&#34;
+
+    command_response = self.send_command(command)
+    ntp = self.fsm_parse(command_response, template)
+    return ntp</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_route"><code class="name flex">
+<span>def <span class="ident">show_route</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show route information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>STA
+NHOP
+OIF
+METRIC
+UPID
+FLAG</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_route(self):
+    &#34;&#34;&#34;Show route information
+
+    Returns
+    -------
+    dict
+        STA
+        NHOP
+        OIF
+        METRIC
+        UPID
+        FLAG
+    &#34;&#34;&#34;
+    command = &#34;show route&#34;
+    template = &#34;show_route.textfsm&#34;
+
+    command_response = self.send_command(command)
+    route = self.fsm_parse(command_response, template)
+    return route</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_snmp"><code class="name flex">
+<span>def <span class="ident">show_snmp</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show SNMP information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>SYSLOCATION
+SYSCONTACT
+COMMUNITY_NUMBERS</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_snmp(self):
+    &#34;&#34;&#34;Show SNMP information
+
+    Returns
+    -------
+    dict
+        SYSLOCATION
+        SYSCONTACT
+        COMMUNITY_NUMBERS
+    &#34;&#34;&#34;
+    command = &#34;show snmp&#34;
+    template = &#34;show_snmp.textfsm&#34;
+
+    command_response = self.send_command(command)
+    snmp = self.fsm_parse(command_response, template)
+    return snmp</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_ssid"><code class="name flex">
+<span>def <span class="ident">show_ssid</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show SSID information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>NO
+NAME
+FRAG
+RTS
+DTIM_PERIOD
+MAX_CLIENT
+MAC_FILTER</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_ssid(self):
+    &#34;&#34;&#34;Show SSID information
+
+    Returns
+    -------
+    dict
+        NO
+        NAME
+        FRAG
+        RTS
+        DTIM_PERIOD
+        MAX_CLIENT
+        MAC_FILTER
+    &#34;&#34;&#34;
+    command = &#34;show ssid&#34;
+    template = &#34;show_ssid.textfsm&#34;
+
+    command_response = self.send_command(command)
+    ssid = self.fsm_parse(command_response, template)
+    return ssid</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_station"><code class="name flex">
+<span>def <span class="ident">show_station</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get stations currently associated to this AP</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>IFNAME
+, interface station is associated to
+SSID
+, SSID station is associated to
+MAC_ADDR
+, MAC address of station
+IP_ADDR
+, IP address of station
+CHAN
+, channel station is on
+TX_RATE
+, transmit rate to station
+RX_RATE
+, receive rate from station
+POW_SNR
+, power level (d) and signal-to-noise ratio of station
+ASSOC_MODE
+, association mode of station
+CIPHER
+, cipher mode of station
+ASSOC_TIME
+, association time of station
+VLAN
+, user VLAN of station
+AUTH
+, authentication mode of station
+UPID
+, user profile ID assigned to station
+PHYMODE
+, PHY mode of station
+LDPC
+, LDPC code usage by station
+TX_STBC
+, STBC code usage to station
+RX_STBC
+, STBC code usage from station
+SM_PS
+, Spatial Multiplexing Power Save usage by station
+CHAN_WIDTH
+, channel width in use by station
+MUMIMO
+, MUMIMO usage of station
+RELEASE
+, release state of station
+STATION_STATE, state of station</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_station(self):
+    &#34;&#34;&#34;Get stations currently associated to this AP
+
+    Returns
+    -------
+    dict
+        IFNAME       , interface station is associated to
+        SSID         , SSID station is associated to
+        MAC_ADDR     , MAC address of station
+        IP_ADDR      , IP address of station
+        CHAN         , channel station is on
+        TX_RATE      , transmit rate to station
+        RX_RATE      , receive rate from station
+        POW_SNR      , power level (d) and signal-to-noise ratio of station
+        ASSOC_MODE   , association mode of station
+        CIPHER       , cipher mode of station
+        ASSOC_TIME   , association time of station
+        VLAN         , user VLAN of station
+        AUTH         , authentication mode of station
+        UPID         , user profile ID assigned to station
+        PHYMODE      , PHY mode of station
+        LDPC         , LDPC code usage by station
+        TX_STBC      , STBC code usage to station
+        RX_STBC      , STBC code usage from station
+        SM_PS        , Spatial Multiplexing Power Save usage by station
+        CHAN_WIDTH   , channel width in use by station
+        MUMIMO       , MUMIMO usage of station
+        RELEASE      , release state of station
+        STATION_STATE, state of station
+    &#34;&#34;&#34;
+
+    command = &#34;show station&#34;
+    template = &#34;show_station.textfsm&#34;
+
+    command_response = self.send_command(command)
+    stations = self.fsm_parse(command_response, template)
+    return stations</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_timezone"><code class="name flex">
+<span>def <span class="ident">show_timezone</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Show timezone</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>TIMEZONE</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_timezone(self):
+    &#34;&#34;&#34;Show timezone
+
+    Returns
+    -------
+    str
+        TIMEZONE
+    &#34;&#34;&#34;
+    command = &#34;show timezone&#34;
+    template = &#34;show_timezone.textfsm&#34;
+
+    command_response = self.send_command(command)
+    timezone = self.fsm_parse(command_response, template)
+    return timezone</code></pre>
+</details>
+</dd>
+<dt id="aeromiko.aeromiko.AP.show_version"><code class="name flex">
+<span>def <span class="ident">show_version</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get version information</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>PLATFORM, AP model
+UPTIME
+, time since last reboot</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_version(self):
+    &#34;&#34;&#34;Get version information
+
+    Returns
+    -------
+    dict
+        PLATFORM, AP model
+        UPTIME  , time since last reboot
+    &#34;&#34;&#34;
+    command = &#34;show version&#34;
+    template = &#34;show_version.textfsm&#34;
+
+    command_response = self.send_command(command)
+    version = self.fsm_parse(command_response, template)
+    return version[0]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="aeromiko.aeromiko.AP" href="#aeromiko.aeromiko.AP">AP</a></code></h4>
+<ul class="">
+<li><code><a title="aeromiko.aeromiko.AP.connect" href="#aeromiko.aeromiko.AP.connect">connect</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.disconnect" href="#aeromiko.aeromiko.AP.disconnect">disconnect</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.fsm_parse" href="#aeromiko.aeromiko.AP.fsm_parse">fsm_parse</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.get_hostname" href="#aeromiko.aeromiko.AP.get_hostname">get_hostname</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.send_command" href="#aeromiko.aeromiko.AP.send_command">send_command</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.send_config" href="#aeromiko.aeromiko.AP.send_config">send_config</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_acsp" href="#aeromiko.aeromiko.AP.show_acsp">show_acsp</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_acsp_channel_info" href="#aeromiko.aeromiko.AP.show_acsp_channel_info">show_acsp_channel_info</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_acsp_neighbor" href="#aeromiko.aeromiko.AP.show_acsp_neighbor">show_acsp_neighbor</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_boot_param" href="#aeromiko.aeromiko.AP.show_boot_param">show_boot_param</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_capwap_client" href="#aeromiko.aeromiko.AP.show_capwap_client">show_capwap_client</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_clock" href="#aeromiko.aeromiko.AP.show_clock">show_clock</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_config_running" href="#aeromiko.aeromiko.AP.show_config_running">show_config_running</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_console" href="#aeromiko.aeromiko.AP.show_console">show_console</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_cpu" href="#aeromiko.aeromiko.AP.show_cpu">show_cpu</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_dns" href="#aeromiko.aeromiko.AP.show_dns">show_dns</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_hivemanager" href="#aeromiko.aeromiko.AP.show_hivemanager">show_hivemanager</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_hw_info" href="#aeromiko.aeromiko.AP.show_hw_info">show_hw_info</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_idm" href="#aeromiko.aeromiko.AP.show_idm">show_idm</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_int_eth" href="#aeromiko.aeromiko.AP.show_int_eth">show_int_eth</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_int_wifi" href="#aeromiko.aeromiko.AP.show_int_wifi">show_int_wifi</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_ip_route" href="#aeromiko.aeromiko.AP.show_ip_route">show_ip_route</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_lldp_neighbor" href="#aeromiko.aeromiko.AP.show_lldp_neighbor">show_lldp_neighbor</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_memory" href="#aeromiko.aeromiko.AP.show_memory">show_memory</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_ntp" href="#aeromiko.aeromiko.AP.show_ntp">show_ntp</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_route" href="#aeromiko.aeromiko.AP.show_route">show_route</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_snmp" href="#aeromiko.aeromiko.AP.show_snmp">show_snmp</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_ssid" href="#aeromiko.aeromiko.AP.show_ssid">show_ssid</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_station" href="#aeromiko.aeromiko.AP.show_station">show_station</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_timezone" href="#aeromiko.aeromiko.AP.show_timezone">show_timezone</a></code></li>
+<li><code><a title="aeromiko.aeromiko.AP.show_version" href="#aeromiko.aeromiko.AP.show_version">show_version</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.4</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
