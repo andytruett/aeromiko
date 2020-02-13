@@ -251,7 +251,7 @@ Internal station traffic state=enabled;
 Operational state=up; Duplex=full-duplex; Speed=1000Mbps;
 LLDP state=enabled; CDP state=enabled;
 Hiveid="HiveManager NG Virtual Appliance"; Native-vlan=400;
-MAC addr=3485:8401:7500; MTU=1500 Rx packets=  63157666; errors=0; dropped=6;
+MAC addr=ffff:aaaa:7500; MTU=1500 Rx packets=  63157666; errors=0; dropped=6;
 Tx packets=4319628068; errors=0; dropped=0;
 Rx bytes=45431034860 (42.311 GB); Tx bytes=14004707141 (13.043 GB);
 """,
@@ -691,7 +691,8 @@ def test_show_dns(mocker):
     m = mocker.patch(
         "aeromiko.AP.send_command",
         return_value=r"""DNS server from DHCP:
-Domain name suffix: MyHive.ePrimary   : 127.0.1.212
+Domain name suffix: MyHive.edu
+Primary   : 127.0.1.212
 Secondary : 127.0.1.216
 Tertiary  : 0.0.0.0""",
     )
@@ -699,8 +700,8 @@ Tertiary  : 0.0.0.0""",
     assert my_ap.show_dns() == [
         {
             "DNS_SERVER_FROM_DHCP": "",
-            "DOMAIN_NAME_SUFFIX": "MyHive.ePrimary   : 127.0.1.212",
-            "PRIMARY": "",
+            "DOMAIN_NAME_SUFFIX": "MyHive.edu",
+            "PRIMARY": "127.0.1.212",
             "SECONDARY": "127.0.1.216",
             "TERTIARY": "0.0.0.0",
         }
@@ -710,7 +711,8 @@ Tertiary  : 0.0.0.0""",
 def test_show_hivemanager(mocker):
     m = mocker.patch(
         "aeromiko.AP.send_command",
-        return_value=r"""HiveManager Backup:     hivemanager.MyHive.edu
+        return_value=r"""HiveManager Primary:    hivemanager.MyHive.edu
+HiveManager Backup:     hivemanager.MyHive.edu
 HiveManager connection: Connected securely to Aerohive""",
     )
     # expects dicionary
@@ -718,7 +720,7 @@ HiveManager connection: Connected securely to Aerohive""",
         {
             "HM_BACKUP": "hivemanager.MyHive.edu",
             "HM_CONNECTION": "Connected securely to Aerohive",
-            "HM_PRIMARY": "",
+            "HM_PRIMARY": "hivemanager.MyHive.edu",
         }
     ]
 
@@ -735,14 +737,14 @@ Manufacturing date:           20140922
 Number of MAC addresses:      64
 Manufacturing version:        1
 Antenna ID:                   0
-Aerohive hardware key:        ▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+Aerohive hardware key:
 HW Auth Device Status:        success
 TPM Status:                   success""",
     )
     # expects dicionary
     assert my_ap.show_hw_info() == [
         {
-            "AEROHIVE_HARDWARE_KEY": "▒▒▒▒▒▒▒▒▒▒▒▒▒▒",
+            "AEROHIVE_HARDWARE_KEY": "",
             "ANTENNA_ID": "0",
             "ETHERNET_MAC_ADDRESS": "ffff:eeee:0f80",
             "HARDWARE_ID": "0",
@@ -763,7 +765,8 @@ def test_show_idm(mocker):
         "aeromiko.AP.send_command",
         return_value=r"""IDM client: Enabled Per SSID
 IDM Proxy IP: 127.0.1.3
-IDM proxy: DisablRadSec Certificate state: Valid
+IDM proxy: Disabled
+RadSec Certificate state: Valid
 RadSec Certificate Issued: 2019-08-14 00:30:52 GMT
 RadSec Certificate Expires: 2020-08-13 00:30:52 GMT""",
     )
@@ -771,11 +774,11 @@ RadSec Certificate Expires: 2020-08-13 00:30:52 GMT""",
     assert my_ap.show_idm() == [
         {
             "IDM_CLIENT": "Enabled Per SSID",
-            "IDM_PROXY": "DisablRadSec Certificate state: Valid",
+            "IDM_PROXY": "Disabled",
             "IDM_PROXY_IP": "127.0.1.3",
             "RADSEC_CERTIFICATE_EXPIRE": "",
             "RADSEC_CERTIFICATE_ISSUED": "2019-08-14 00:30:52 GMT",
-            "RADSEC_CERTIFICATE_STATE": "",
+            "RADSEC_CERTIFICATE_STATE": "Valid",
         }
     ]
 
@@ -964,13 +967,23 @@ def test_show_ssid(mocker):
 DTIM=delivery traffic indication map;
 
 No. Name                             Frag    RTS     DTIM period Max client  Mac filter
---- ----                             ----    ---     ----------- ---------- --------1   MyHive                              2346    2346    1           100         MyHive
+--- ----                             ----    ---     ----------- ---------- --------
+1   MyHive                              2346    2346    1           100         MyHive
 2   MyHive-PPSK                         2346    2346    1           100         MyHive-PPSK
 3   MyHive-AUX                          2346    2346    1           100         MyHive-AUX
 """,
     )
     # expects dictionary
     assert my_ap.show_ssid() == [
+        {
+            "DTIM_PERIOD": "1",
+            "FRAG": "2346",
+            "MAC_FILTER": "MyHive",
+            "MAX_CLIENT": "100",
+            "NAME": "MyHive",
+            "NO": "1",
+            "RTS": "2346",
+        },
         {
             "DTIM_PERIOD": "1",
             "FRAG": "2346",
@@ -1010,14 +1023,15 @@ Interval:           180 minutes
   First             127.0.1.10(active)
   Second            127.0.1.212
   Third
-  FourDaylight Saving Time: No
+  Four
+Daylight Saving Time: No
     Start             03-10 01:59:59
     End               11-03 01:59:59""",
     )
     # expects dictionary
     assert my_ap.show_ntp() == [
         {
-            "DST": "",
+            "DST": "No",
             "DST_END": "11-03 01:59:59",
             "DST_START": "03-10 01:59:59",
             "FIRST": "127.0.1.10(active)",
@@ -1036,12 +1050,3 @@ def test_show_timezone(mocker):
     )
     # expects dictionary
     assert my_ap.show_timezone() == [{"TIMEZONE": "GMT-5:00"}]
-
-
-# def test_(mocker):
-#     m = mocker.patch(
-#         "aeromiko.AP.send_command",
-#         return_value=r"""""",
-#     )
-#     # expects dicionary
-#     assert my_ap.() == {}
