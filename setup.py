@@ -6,7 +6,7 @@ with open("README.rst", "r") as f:
 
 setuptools.setup(
     name="aeromiko",
-    version="1.0.0",
+    version="1.1",
     author="Andy Truett",
     author_email="andrew.truett@gmail.com",
     description="Aeromiko is a middle-man script to simplify extracting data from Aerohive APs using Netmiko",
@@ -15,7 +15,7 @@ setuptools.setup(
     license="MIT License",
     keywords="aerohive netmiko",
     url="https://github.com/andytruett/aeromiko",
-    download_url="https://github.com/andytruett/Aeromiko/archive/1.0.0.tar.gz",
+    download_url="https://github.com/andytruett/Aeromiko/archive/1.1.tar.gz",
     packages=setuptools.find_packages(),
     install_requires=["netmiko>=2.4.0"],
     classifiers=[
