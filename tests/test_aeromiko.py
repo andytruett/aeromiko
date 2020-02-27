@@ -97,7 +97,7 @@ Mac Addr       IP Addr         Chan Tx Rate Rx Rate Pow(SNR)         A-Mode   Ci
 Ifname=wifi1.1, Ifindex=21, SSID=MyHive:
 Mac Addr       IP Addr         Chan Tx Rate Rx Rate Pow(SNR)         A-Mode   Cipher  A-Time  VLAN Auth UPID Phymode LDPC Tx-STBC Rx-STBC    SM-PS Chan-width   MU-MIMO Release Station-State
 -------------- --------------- ---- ------- ------- -------- -------------- -------- -------- ---- ---- ---- ------- ---- ------- ------- -------- ---------- --------- ------- -------------
-ffff:eeee:aaaa 127.0.2.14      56    156M     24M  -61(31)     wpa2-8021x aes ccmp 08:15:35  422  Yes    4    11ac  Yes   Yes     Yes     static    20MHz          No      No data collecting...
+ffff:eeee:aaaa 127.0.2.14      56    156M     24M  -61(31)     wpa2-8021x aes ccmp 08:15:35  422  Yes    4    11b/g  Yes   Yes     Yes     static    20MHz          No      No data collecting...
 ffff:eeee:aaaa 127.0.2.25      56    234M     24M  -57(35)     wpa2-8021x aes ccmp 11:19:02  422  Yes    4    11ac  Yes   Yes     Yes     static    20MHz          No      No Good
 ffff:eeee:aaaa 127.0.2.24      56   72.2M      6M  -53(39)     wpa2-8021x aes ccmp 126:44:23  422  Yes    4    11na   No    No     Yes     static    20MHz          No      No Good
 Ifname=wifi0.2, Ifindex=22, SSID=MyHive-PPSK:
@@ -126,7 +126,7 @@ Mac Addr       IP Addr         Chan Tx Rate Rx Rate Pow(SNR)         A-Mode   Ci
             "LDPC": "Yes",
             "MAC_ADDR": "ffff:eeee:aaaa",
             "MUMIMO": "No",
-            "PHYMODE": "11ac",
+            "PHYMODE": "11b/g",
             "POW_SNR": "-61(31)",
             "RELEASE": "No",
             "RX_RATE": "24M",
