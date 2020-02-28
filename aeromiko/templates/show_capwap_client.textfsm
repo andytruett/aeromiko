@@ -70,6 +70,7 @@ Start
   ^\s*Retransmit count:\s*${RETRANSMIT_COUNT}
   ^\s*Max retransmit count:\s*${MAX_RETRANSMIT_COUNT}
   ^\s*Primary server tries:\s*${PRIMARY_SERVER_TRIES}
-  ^\s*Backup server tries:\s*${BACKUP_SERVER_TRIES}\s*Keepalives lost/sent:\s*${KEEPALIVES_LOST_SENT}
+  ^\s*Backup server tries:\s*${BACKUP_SERVER_TRIES}
+  ^\s*Keepalives lost/sent:\s*${KEEPALIVES_LOST_SENT}
   ^\s*Event packet drop due to buffer shortage:\s*${EVENT_PACKET_DROP_DUE_TO_BUFFER_SHORTAGE}
   ^\s*Event packet drop due to loss connection:\s*${EVENT_PACKET_DROP_DUE_TO_LOSS_CONNECTION} -> Record

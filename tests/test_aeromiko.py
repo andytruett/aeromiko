@@ -620,14 +620,15 @@ Max discovery count:     3
 Retransmit count:        0
 Max retransmit count:    2
 Primary server tries:    0
-Backup server tries:    Keepalives lost/sent:    26/73138
+Backup server tries:     3
+Keepalives lost/sent:    26/73138
 Event packet drop due to buffer shortage: 0
 Event packet drop due to loss connection: 6""",
     )
     # expects dicionary
     assert my_ap.show_capwap_client() == [
         {
-            "BACKUP_SERVER_TRIES": "",
+            "BACKUP_SERVER_TRIES": "3",
             "CAPWAP_CLIENT": "Enabled",
             "CAPWAP_CLIENT_IP": "127.0.1.12",
             "CAPWAP_DEFAULT_SERVER_NAME": "redirector.aerohive.com",
