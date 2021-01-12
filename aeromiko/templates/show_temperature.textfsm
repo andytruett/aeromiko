@@ -1,0 +1,4 @@
+Value TEMPERATURE (\d+)
+
+Start
+  ^\s*Current temperature:\s*${TEMPERATURE} -> Record

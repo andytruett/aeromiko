@@ -61,7 +61,7 @@ Platform:           AP6Bootloader ver:     v0.0.4.3c
 TPM ver:            v1.2.66.16
 Uptime:             1 weeks, 6 days, 6 hours, 35 minutes, 22 seconds""",
     )
-    # expects dicionary
+    # expects dictionary
     assert my_ap.show_version() == {
         "PLATFORM": "AP6Bootloader ver:     v0.0.4.3c",
         "UPTIME": "1 weeks, 6 days, 6 hours, 35 minutes, 22 seconds",
@@ -82,6 +82,15 @@ CPU system utilization:               3.980%""",
         "CPU_TOTAL": "8.457",
         "CPU_USER": "2.487",
     }
+
+
+def test_show_temperature(mocker):
+    m = mocker.patch(
+        "aeromiko.AP.send_command",
+        return_value="Current temperature:               51(degree C)",
+    )
+    # expects string
+    assert my_ap.show_temperature() == "51"
 
 
 def test_show_station(mocker):

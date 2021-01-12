@@ -172,6 +172,21 @@ class AP:
         cpu = self.fsm_parse(command_response, template)
         return cpu[0]
 
+    def show_temperature(self):
+        """Show temperature
+
+        Returns
+        -------
+        str
+            access point internal temperature (Degree C)
+        """
+        command = "show system temperature"
+        template = "show_temperature.textfsm"
+        command_response = self.send_command(command)
+        temperature_info = self.fsm_parse(command_response, template)
+        temperature = temperature_info[0]["TEMPERATURE"]
+        return temperature
+
     def show_station(self):
         """Get stations currently associated to this AP
 
